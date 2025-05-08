@@ -3,13 +3,12 @@
   <img src="https://github.com/nyaexx/bitki-sulama/blob/main/.github/bitkisulamalogo.png" width="150px">
 </p>
 
+
 <p align="center">
   <a href="https://github.com/nyaexx/bitki-sulama/releases">
-    <img src="https://img.shields.io/github/downloads/nyaexx/bitki-sulama/total.svg?label=Toplam%20İndirmeler&style=flat&color=success">
+    <img src="https://img.shields.io/github/downloads/nyaexx/bitki-sulama/total.svg?label=Toplam%20indrimeler">
   </a>
 </p>
-
-
 
 ---
 Bu proje, belirli bir bitkinin toprak nemi ve hava değerlerini ölçerek bir Arduino devresiyle otomatik sulama işlemleri yapmayı sağlar. Ayrıca, verileri gözlemleyebileceğiniz ve Bluetooth aracılığıyla bu verileri çekebileceğiniz bir Android uygulaması da bulunmaktadır..
