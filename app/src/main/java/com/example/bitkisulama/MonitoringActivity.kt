@@ -1,0 +1,199 @@
+package com.example.bitkisulama
+
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothDevice
+import android.bluetooth.BluetoothSocket
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import java.io.InputStream
+import java.io.OutputStream
+import java.util.*
+
+class MonitoringActivity : AppCompatActivity() {
+
+    private lateinit var temperatureTextView: TextView
+    private lateinit var humidityTextView: TextView
+    private lateinit var soilMoistureTextView: TextView
+    private var bluetoothSocket: BluetoothSocket? = null
+    private lateinit var inputStream: InputStream
+    private lateinit var outputStream: OutputStream
+    private var readThread: Thread? = null
+    private val handler = Handler(Looper.getMainLooper())
+    private val buffer = StringBuilder()
+    private val TAG = "MonitoringActivity"
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_monitoring)
+
+        temperatureTextView = findViewById(R.id.temperatureTextView)
+        humidityTextView = findViewById(R.id.humidityTextView)
+        soilMoistureTextView = findViewById(R.id.soilMoistureTextView)
+
+        // Başlangıç değerlerini ayarla
+        temperatureTextView.text = "Sıcaklık: --°C"
+        humidityTextView.text = "Nem: --%"
+        soilMoistureTextView.text = "Toprak Nemi: --"
+
+        val deviceAddress = intent.getStringExtra("device_address")
+        if (deviceAddress != null) {
+            val device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(deviceAddress)
+            connectToDevice(device)
+        } else {
+            Toast.makeText(this, "Cihaz adresi alınamadı", Toast.LENGTH_SHORT).show()
+            finish()
+        }
+    }
+
+    private fun connectToDevice(device: BluetoothDevice) {
+        try {
+            val uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB") // SPP UUID
+            bluetoothSocket = device.createRfcommSocketToServiceRecord(uuid)
+            bluetoothSocket?.connect()
+
+            if (bluetoothSocket?.isConnected == true) {
+                Toast.makeText(this, "${device.name} bağlantı başarılı!", Toast.LENGTH_SHORT).show()
+                inputStream = bluetoothSocket?.inputStream!!
+                outputStream = bluetoothSocket?.outputStream!!
+
+                // Veri okuma thread'ini başlat
+                startReadingData()
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Bağlantı hatası: ${e.message}")
+            Toast.makeText(this, "Bağlantı kurulamadı: ${e.message}", Toast.LENGTH_SHORT).show()
+            finish()
+        }
+    }
+
+    private fun startReadingData() {
+        readThread = Thread {
+            val buffer = ByteArray(1024)
+
+            while (!Thread.currentThread().isInterrupted && bluetoothSocket?.isConnected == true) {
+                try {
+                    val bytesAvailable = inputStream.available()
+                    if (bytesAvailable > 0) {
+                        val bytes = inputStream.read(buffer)
+                        val data = String(buffer, 0, bytes)
+                        processReceivedData(data)
+                    }
+                    Thread.sleep(100) // CPU yükünü azaltmak için kısa bir bekleme
+                } catch (e: Exception) {
+                    Log.e(TAG, "Veri okuma hatası: ${e.message}")
+                    break
+                }
+            }
+        }
+        readThread?.start()
+    }
+
+    private fun processReceivedData(data: String) {
+        // Gelen veriyi buffer'a ekle
+        buffer.append(data)
+        Log.d(TAG, "Alınan ham veri: $data")
+        Log.d(TAG, "Buffer durumu: $buffer")
+
+        // Veri setinin tamamını kontrol et (3 sensör değeri)
+        // Arduino'dan: Sıcaklık: XX.X°C | Toprak Nemi: XX | Nem: %XX.X formatında gelir
+
+        // Buffer'da en az bir tam veri seti olup olmadığını kontrol et
+        if (buffer.indexOf("Sıcaklık:") != -1 &&
+            buffer.indexOf("Toprak Nemi:") != -1 &&
+            buffer.indexOf("Nem:") != -1 &&
+            buffer.lastIndexOf("\n") != -1) {
+
+            // Tüm veriyi parçalara ayır
+            val completeData = buffer.toString()
+
+            // Sıcaklık verisini bulma
+            findTemperature(completeData)
+
+            // Toprak nemi verisini bulma
+            findSoilMoisture(completeData)
+
+            // Nem verisini bulma
+            findHumidity(completeData)
+
+            // Buffer'ı en son bulunan yeni satırdan sonra temizle
+            val lastNewline = buffer.lastIndexOf("\n")
+            if (lastNewline != -1) {
+                buffer.delete(0, lastNewline + 1)
+            }
+        }
+    }
+
+    private fun findTemperature(data: String) {
+        try {
+            val startIndex = data.indexOf("Sıcaklık:")
+            if (startIndex != -1) {
+                val endIndex = data.indexOf("\n", startIndex)
+                if (endIndex != -1) {
+                    val temperatureLine = data.substring(startIndex, endIndex)
+                    val temp = temperatureLine.substringAfter("Sıcaklık:").trim().replace("°C", "").trim()
+                    handler.post {
+                        temperatureTextView.text = "Sıcaklık: $temp °C"
+                        Log.d(TAG, "Sıcaklık güncellendi: $temp")
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Sıcaklık ayrıştırma hatası: ${e.message}")
+        }
+    }
+
+    private fun findSoilMoisture(data: String) {
+        try {
+            val startIndex = data.indexOf("Toprak Nemi:")
+            if (startIndex != -1) {
+                val endIndex = data.indexOf("\n", startIndex)
+                if (endIndex != -1) {
+                    val moistureLine = data.substring(startIndex, endIndex)
+                    val moisture = moistureLine.substringAfter("Toprak Nemi:").trim()
+                    handler.post {
+                        soilMoistureTextView.text = "Toprak Nemi: $moisture"
+                        Log.d(TAG, "Toprak nemi güncellendi: $moisture")
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Toprak nemi ayrıştırma hatası: ${e.message}")
+        }
+    }
+
+    private fun findHumidity(data: String) {
+        try {
+            val startIndex = data.indexOf("Nem:")
+            if (startIndex != -1) {
+                val endIndex = data.indexOf("\n", startIndex)
+                if (endIndex != -1) {
+                    val humidityLine = data.substring(startIndex, endIndex)
+                    // Nem değeri "%XX.X" formatında geliyor
+                    handler.post {
+                        humidityTextView.text = "Nem: " + humidityLine.substringAfter("Nem:").trim()
+                        Log.d(TAG, "Nem güncellendi: " + humidityLine.substringAfter("Nem:").trim())
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Nem ayrıştırma hatası: ${e.message}")
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        try {
+            readThread?.interrupt()
+            if (::inputStream.isInitialized) inputStream.close()
+            if (::outputStream.isInitialized) outputStream.close()
+            bluetoothSocket?.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+}
