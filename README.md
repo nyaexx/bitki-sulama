@@ -16,9 +16,9 @@ Bu proje, belirli bir bitkinin toprak nemi ve hava değerlerini ölçerek bir Ar
 ---
 ### Android Uygulamasını İndirme:
 
-Uygulamanın 1.8 Sürümünü buradan indirebilirsiniz:
+Uygulamanın Son Sürümünü buradan indirebilirsiniz:
 
-[![](https://img.shields.io/badge/Bitki%20Sulama-v1.8-blue)](https://github.com/nyaexx/bitki-sulama/releases/tag/v1.8)
+[![](https://img.shields.io/badge/Bitki%20Sulama-n1.0-blue)](https://github.com/nyaexx/bitki-sulama/releases/tag/n1.0)
 
 
 ---
