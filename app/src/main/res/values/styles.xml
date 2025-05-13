@@ -1,0 +1,23 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Ana uygulama teması -->
+    <style name="Theme.BitkiSulama" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorOnPrimary">@color/onPrimary</item>
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorOnSecondary">@color/onSecondary</item>
+        <item name="android:colorBackground">@color/backgroundColor</item>
+        <item name="android:textColorPrimary">@color/textPrimary</item>
+        <item name="android:statusBarColor">@color/backgroundColor</item>
+    </style>
+
+    <!-- Splash ekranı teması (Android 11 ve öncesi uyumlu) -->
+    <style name="Theme.BitkiSulama.Splash" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Splash ekranı için sabit arka plan rengi veya görsel -->
+        <item name="android:windowBackground">@color/splashBackground</item>
+        <!-- Statik görüntü, animasyon değil -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+</resources>

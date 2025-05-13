@@ -1,0 +1,39 @@
+<resources>
+    <!-- App name -->
+    <string name="app_name">Bitki Sulama</string>
+    <string name="made">made by nyaex</string>
+
+    <!-- Splash Screen -->
+
+    <!-- MainActivity -->
+    <string name="device_list">Cihaz Listesi</string>
+    <string name="search_device">Cihazları Bul</string>
+    <string name="bluetooth_disabled">Bluetooth devre dışı. Lütfen etkinleştirin.</string>
+    <string name="bluetooth_connection_failed">Bluetooth bağlantısı başarısız oldu.</string>
+
+    <!-- MonitoringActivity -->
+    <string name="monitoring_text">Veri İzleme Paneli</string>
+    <string name="device_data">Cihaz Verisi</string>
+    <string name="barrier_status">Bariyer Durumu</string>
+    <string name="temperature_label">Sıcaklık</string>
+    <string name="humidity_label">Nem</string>
+    <string name="soil_moisture_label">Toprak Nem</string>
+
+    <!-- Permissions -->
+    <string name="permission_required">İzin gerekli! Lütfen izinleri verin.</string>
+    <string name="bluetooth_permission">Bluetooth kullanımı için izin gerekli.</string>
+    <string name="location_permission">Konum erişimi izni gerekli.</string>
+
+    <!-- Errors -->
+    <string name="error_no_bluetooth">Bluetooth cihazı bulunamadı.</string>
+    <string name="error_connection_failed">Bağlantı başarısız oldu. Tekrar deneyin.</string>
+    <string name="error_no_data">Veri alınamadı.</string>
+
+    <!-- Success Messages -->
+    <string name="connection_successful">Bağlantı başarılı!</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Ayarlar</string>
+    <string name="update_interval_label">Veri Güncelleme Aralığı (sn)</string>
+
+</resources>
