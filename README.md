@@ -21,8 +21,6 @@ Uygulamanın 1.8 Sürümünü buradan indirebilirsiniz:
 [![](https://img.shields.io/badge/Bitki%20Sulama-v1.8-blue)](https://github.com/nyaexx/bitki-sulama/releases/tag/v1.8)
 
 
-[Android Uygulaması Üzerinde Değişiklik Yapma Klavuzu](https://github.com/nyaexx/bitki-sulama/blob/main/Mit%20App%20Inventor/README.md)
-
 ---
 
 

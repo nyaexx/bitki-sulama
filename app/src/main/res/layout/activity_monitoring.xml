@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/monitoringLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="#121212">
+
+    <TextView
+        android:id="@+id/temperatureTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sıcaklık: -- °C"
+        android:textColor="@color/backgroundColor"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:padding="16dp"
+        android:background="#FFE0B2"
+        android:layout_marginBottom="16dp"
+        android:elevation="2dp" />
+
+    <TextView
+        android:id="@+id/humidityTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nem: -- %"
+        android:textColor="@color/backgroundColor"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:padding="16dp"
+        android:background="#BBDEFB"
+        android:layout_marginBottom="16dp"
+        android:elevation="2dp" />
+
+    <TextView
+        android:id="@+id/soilMoistureTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Toprak Nemi: --"
+        android:textColor="@color/backgroundColor"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:padding="16dp"
+        android:background="#C8E6C9"
+        android:elevation="2dp" />
+
+</LinearLayout>
