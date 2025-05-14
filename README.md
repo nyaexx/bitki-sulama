@@ -28,7 +28,7 @@ Uygulamanın Son Sürümünü buradan indirebilirsiniz:
 ### *Uygulama içinden bağlantıda bağlantı sorunu yaşanırsa uno kart üzerinde bulunan kırmızı reset düğmesine basıldıktan hemen sonra eşleşme yapılmalıdır.
 ### *Bluetooth modül üzerinde bulunan kırmızı led yanıp söndüğünde "cihaz aranıyor" sürekli yandığında "bağlantı sağlandı" manasına gelir.
 ### *Eğer bluetooth bağlı gözükürken eşleşme yapılamazsa devrede elektriği kesin ışıklar sönene kadar bekleyin ve tekrar elektriği bağlayın sorun düzelecektir.
-
+---
 ### Kurulum ve Kullanım
 Kurulum için yakında devrenin şematiği paylaşılacaktır.
 
