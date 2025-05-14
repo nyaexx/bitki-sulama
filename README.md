@@ -23,7 +23,11 @@ Uygulamanın Son Sürümünü buradan indirebilirsiniz:
 
 ---
 
-
+### !!Bluetooht Bağlantısı İçin Yapılması Gerekenler:
+### *İlk bağlantıda telefonun bluetooth bağlantı menüsü açılıp "HC-06" seçilip şifre 1234 girilmelidir.
+### *Uygulama içinden bağlantıda bağlantı sorunu yaşanırsa uno kart üzerinde bulunan kırmızı reset düğmesine basıldıktan hemen sonra eşleşme yapılmalıdır.
+### *Bluetooth modül üzerinde bulunan kırmızı led yanıp söndüğünde "cihaz aranıyor" sürekli yandığında "bağlantı sağlandı" manasına gelir.
+### *Eğer bluetooth bağlı gözükürken eşleşme yapılamazsa devrede elektriği kesin ışıklar sönene kadar bekleyin ve tekrar elektriği bağlayın sorun düzelecektir.
 
 ### Kurulum ve Kullanım
 Kurulum için yakında devrenin şematiği paylaşılacaktır.
