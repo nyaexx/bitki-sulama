@@ -23,7 +23,8 @@ Uygulamanın Son Sürümünü buradan indirebilirsiniz:
 ---
 
 ### Android Uygulaması Üzerinde Değişiklik Yapma:
-Gereklilikler
+
+**Gereklilikler:**
 
     Android Studio (Arctic Fox veya üzeri)
 
@@ -37,9 +38,9 @@ Gereklilikler
 
 **Nasıl Çalıştırılır?**
 
-Repo'yu klonla:
+- Repo'yu klonla:
 
-    git clone https://github.com/nyaexx/bitki-sulama/
+  -  ``git clone https://github.com/nyaexx/bitki-sulama/``
 
 - Android Studio ile aç.
 
@@ -49,7 +50,7 @@ Repo'yu klonla:
 
 ---
 
-### Kurulum ve Kullanım
+### Devre Kurulumu ve Kullanımı
 Kurulum için aşağıdaki bağlantı şemasına göre devreyi kurun:
 <p align="center">
   <img src="https://github.com/nyaexx/bitki-sulama/blob/main/Arduino%20Kodlar%C4%B1/BaglantiSemasi.png" width="">
