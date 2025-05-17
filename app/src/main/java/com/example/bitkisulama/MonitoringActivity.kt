@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +20,8 @@ class MonitoringActivity : AppCompatActivity() {
     private lateinit var temperatureTextView: TextView
     private lateinit var humidityTextView: TextView
     private lateinit var soilMoistureTextView: TextView
+    private lateinit var manualWateringButton: Button
+    private lateinit var disconnectButton: Button
     private var bluetoothSocket: BluetoothSocket? = null
     private lateinit var inputStream: InputStream
     private lateinit var outputStream: OutputStream
@@ -34,11 +37,23 @@ class MonitoringActivity : AppCompatActivity() {
         temperatureTextView = findViewById(R.id.temperatureTextView)
         humidityTextView = findViewById(R.id.humidityTextView)
         soilMoistureTextView = findViewById(R.id.soilMoistureTextView)
+        manualWateringButton = findViewById(R.id.manualWateringButton)
+        disconnectButton = findViewById(R.id.disconnectButton)
 
         // Başlangıç değerlerini ayarla
         temperatureTextView.text = "Sıcaklık: --°C"
         humidityTextView.text = "Nem: --%"
         soilMoistureTextView.text = "Toprak Nemi: --"
+
+        // Manuel sulama butonu için tıklama olayı ekle
+        manualWateringButton.setOnClickListener {
+            sendWateringCommand()
+        }
+
+        // Bağlantıyı kesme butonu için tıklama olayı ekle
+        disconnectButton.setOnClickListener {
+            disconnectAndGoBack()
+        }
 
         val deviceAddress = intent.getStringExtra("device_address")
         if (deviceAddress != null) {
@@ -47,6 +62,43 @@ class MonitoringActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this, "Cihaz adresi alınamadı", Toast.LENGTH_SHORT).show()
             finish()
+        }
+    }
+
+    private fun sendWateringCommand() {
+        if (bluetoothSocket?.isConnected == true && ::outputStream.isInitialized) {
+            try {
+                // Manuel sulama komutu olarak "WATER" gönder
+                val command = "WATER\n"
+                outputStream.write(command.toByteArray())
+                Toast.makeText(this, "Sulama komutu gönderildi", Toast.LENGTH_SHORT).show()
+                Log.d(TAG, "Sulama komutu gönderildi")
+            } catch (e: Exception) {
+                Toast.makeText(this, "Komut gönderilemedi: ${e.message}", Toast.LENGTH_SHORT).show()
+                Log.e(TAG, "Komut gönderme hatası: ${e.message}")
+            }
+        } else {
+            Toast.makeText(this, "Bluetooth bağlantısı yok", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun disconnectAndGoBack() {
+        try {
+            // Bağlantıyı kapat
+            if (::inputStream.isInitialized) inputStream.close()
+            if (::outputStream.isInitialized) outputStream.close()
+            readThread?.interrupt()
+            bluetoothSocket?.close()
+
+            // Kullanıcıya mesaj göster
+            Toast.makeText(this, "Bluetooth bağlantısı kesildi", Toast.LENGTH_SHORT).show()
+            Log.d(TAG, "Bluetooth bağlantısı kesildi")
+
+            // Ana ekrana dön
+            finish()
+        } catch (e: Exception) {
+            Toast.makeText(this, "Bağlantı kapatılırken hata: ${e.message}", Toast.LENGTH_SHORT).show()
+            Log.e(TAG, "Bağlantı kapatma hatası: ${e.message}")
         }
     }
 
@@ -192,8 +244,17 @@ class MonitoringActivity : AppCompatActivity() {
             if (::inputStream.isInitialized) inputStream.close()
             if (::outputStream.isInitialized) outputStream.close()
             bluetoothSocket?.close()
+            Log.d(TAG, "onDestroy: Kaynaklar temizlendi")
         } catch (e: Exception) {
+            Log.e(TAG, "onDestroy: Hata - ${e.message}")
             e.printStackTrace()
         }
+    }
+
+    // Geri butonuna basıldığında da bağlantıyı düzgün kapatalım
+    @Suppress("DEPRECATION")
+    override fun onBackPressed() {
+        disconnectAndGoBack()
+        super.onBackPressed()
     }
 }
