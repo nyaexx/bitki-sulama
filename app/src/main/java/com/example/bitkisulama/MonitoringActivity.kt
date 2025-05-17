@@ -11,12 +11,14 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import java.io.InputStream
 import java.io.OutputStream
 import java.util.*
 
 class MonitoringActivity : AppCompatActivity() {
 
+    private lateinit var toolbar: Toolbar
     private lateinit var temperatureTextView: TextView
     private lateinit var humidityTextView: TextView
     private lateinit var soilMoistureTextView: TextView
@@ -33,6 +35,16 @@ class MonitoringActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_monitoring)
+
+        // Toolbar'ı ayarla
+        toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false) // Varsayılan başlığı gizle
+
+        // Geri dön okuna tıklama olayını ayarla
+        toolbar.setNavigationOnClickListener {
+            disconnectAndGoBack()
+        }
 
         temperatureTextView = findViewById(R.id.temperatureTextView)
         humidityTextView = findViewById(R.id.humidityTextView)
