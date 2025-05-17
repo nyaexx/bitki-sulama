@@ -20,6 +20,10 @@ Uygulamanın Son Sürümünü buradan indirebilirsiniz:
 
 [![](https://img.shields.io/badge/Bitki%20Sulama-n1.1-blue)](https://github.com/nyaexx/bitki-sulama/releases/tag/n1.1)
 
+### Android Uygulamasının Genel Özellikleri:
+- Bluetooh ile cihazdan verilerin okunup ekrana yazılması.
+- Manuel olarak su motorunun çalıştırılması
+
 ---
 
 ### Android Uygulaması Üzerinde Değişiklik Yapma:
