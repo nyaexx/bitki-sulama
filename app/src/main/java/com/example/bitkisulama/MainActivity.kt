@@ -5,14 +5,17 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ListView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
@@ -24,6 +27,9 @@ class MainActivity : AppCompatActivity() {
     private val deviceList = mutableListOf<String>()
     private val bluetoothDevices = mutableListOf<BluetoothDevice>()
     private lateinit var adapter: ArrayAdapter<String>
+
+    // GitHub hesap URL'niz - bunu kendi GitHub adresinizle değiştirin
+    private val GITHUB_URL = "https://github.com/nyaexx/bitki-sulama"
 
     private val bluetoothPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
@@ -38,6 +44,25 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Toolbar'ı ayarla
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
+        // Varsayılan başlık metnini gizle
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        // GitHub butonunu ayarla
+        val githubButton = findViewById<ImageButton>(R.id.github_button)
+        githubButton.setOnClickListener {
+            openGitHubPage()
+        }
+
+        // Paylaş butonunu ayarla
+        val shareButton = findViewById<ImageButton>(R.id.share_button)
+        shareButton.setOnClickListener {
+            shareApp()
+        }
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
 
@@ -67,6 +92,29 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("device_address", device.address)
             startActivity(intent)
         }
+    }
+
+    /**
+     * GitHub sayfasını tarayıcıda açar
+     */
+    private fun openGitHubPage() {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_URL))
+        startActivity(intent)
+    }
+
+    /**
+     * Uygulamayı paylaşma menüsünü açar
+     */
+    private fun shareApp() {
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = "text/plain"
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
+
+        val shareMessage = "Bitki Sulama uygulamamızı deneyin: " +
+                "https://github.com/nyaexx/bitki-sulama/releases/latest"
+
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
+        startActivity(Intent.createChooser(shareIntent, "Paylaş"))
     }
 
     private fun checkBluetoothPermissionsAndLoadDevices() {

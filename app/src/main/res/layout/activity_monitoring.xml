@@ -6,6 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".MonitoringActivity">
 
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/backgroundColor"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/arrow_back"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yönetim Paneli"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </androidx.appcompat.widget.Toolbar>
+
     <TextView
         android:id="@+id/temperatureTextView"
         android:layout_width="wrap_content"
@@ -16,7 +40,7 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <TextView
         android:id="@+id/humidityTextView"
@@ -51,7 +75,7 @@
         android:layout_marginTop="64dp"
         android:layout_marginEnd="32dp"
         android:padding="16dp"
-        android:text="MANUEL SULAMA"
+        android:text="@string/manuel_sulama"
         android:backgroundTint="@color/secondaryColor"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,7 +91,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
         android:padding="16dp"
-        android:text="BAĞLANTIYI KES"
+        android:text="@string/baglantiyi_kes"
         android:textSize="18sp"
         android:backgroundTint="#F44336"
         app:layout_constraintEnd_toEndOf="parent"
