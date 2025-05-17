@@ -2,6 +2,7 @@
     <!-- App name -->
     <string name="app_name">Bitki Sulama</string>
     <string name="made">made by nyaex</string>
+    <string name="app_name_version">Bitki Sulama 1.1</string>
 
     <!-- Splash Screen -->
 
@@ -14,7 +15,6 @@
     <!-- MonitoringActivity -->
     <string name="monitoring_text">Veri İzleme Paneli</string>
     <string name="device_data">Cihaz Verisi</string>
-    <string name="barrier_status">Bariyer Durumu</string>
     <string name="temperature_label">Sıcaklık</string>
     <string name="humidity_label">Nem</string>
     <string name="soil_moisture_label">Toprak Nem</string>
@@ -35,5 +35,5 @@
     <!-- Settings -->
     <string name="settings_title">Ayarlar</string>
     <string name="update_interval_label">Veri Güncelleme Aralığı (sn)</string>
-
+    <!-- buradaki çoğu string şuan kullanılmıyor olabilir. kontrol gerekli. -->
 </resources>

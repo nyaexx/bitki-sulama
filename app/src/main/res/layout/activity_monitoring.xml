@@ -1,48 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/monitoringLayout"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:background="#121212">
+    tools:context=".MonitoringActivity">
 
     <TextView
         android:id="@+id/temperatureTextView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sıcaklık: -- °C"
-        android:textColor="@color/backgroundColor"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:padding="16dp"
-        android:background="#FFE0B2"
-        android:layout_marginBottom="16dp"
-        android:elevation="2dp" />
+        android:layout_marginTop="100dp"
+        android:text="Sıcaklık: --°C"
+        android:textColor="@color/textPrimary"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/humidityTextView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nem: -- %"
-        android:textColor="@color/backgroundColor"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:padding="16dp"
-        android:background="#BBDEFB"
-        android:layout_marginBottom="16dp"
-        android:elevation="2dp" />
+        android:layout_marginTop="32dp"
+        android:text="Nem: --%"
+        android:textColor="@color/textPrimary"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/temperatureTextView" />
 
     <TextView
         android:id="@+id/soilMoistureTextView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:text="Toprak Nemi: --"
-        android:textColor="@color/backgroundColor"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:padding="16dp"
-        android:background="#C8E6C9"
-        android:elevation="2dp" />
+        android:textColor="@color/textPrimary"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/humidityTextView" />
 
-</LinearLayout>
+    <!-- Manuel Sulama Butonu -->
+    <Button
+        android:id="@+id/manualWateringButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="32dp"
+        android:padding="16dp"
+        android:text="MANUEL SULAMA"
+        android:backgroundTint="@color/secondaryColor"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/soilMoistureTextView" />
+
+    <!-- Bağlantı Kesme Butonu -->
+    <Button
+        android:id="@+id/disconnectButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:padding="16dp"
+        android:text="BAĞLANTIYI KES"
+        android:textSize="18sp"
+        android:backgroundTint="#F44336"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/manualWateringButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
