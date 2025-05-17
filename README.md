@@ -53,7 +53,7 @@ Uygulamanın Son Sürümünü buradan indirebilirsiniz:
 ### Devre Kurulumu ve Kullanımı
 Kurulum için aşağıdaki bağlantı şemasına göre devreyi kurun:
 <p align="center">
-  <img src="https://github.com/nyaexx/bitki-sulama/blob/main/Arduino%20Kodlar%C4%B1/BaglantiSemasi.png" width="">
+  <img src="https://github.com/nyaexx/bitki-sulama/blob/main/Arduino%20Kodlar%C4%B1/ba%C4%9Flanti%C5%9Femas%C4%B1.png" width="">
 </p>
 
 > [!NOTE]
