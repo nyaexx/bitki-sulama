@@ -18,7 +18,9 @@ Bu proje, belirli bir bitkinin toprak nemi ve hava değerlerini ölçerek bir Ar
 
 Uygulamanın Son Sürümünü buradan indirebilirsiniz:
 
-[![](https://img.shields.io/badge/Bitki%20Sulama-n1.2.1-blue)](https://github.com/nyaexx/bitki-sulama/releases/tag/n1.2.1)
+[![](https://img.shields.io/badge/Bitki%20Sulama-n1.2.1-blue)](https://github.com/nyaexx/bitki-sulama/releases/tag/n1.2.1) 
+
+- **Not:** Uygulama Android 7 ve üzeri için geliştirilmiştir.
 
 ### Android Uygulamasının Genel Özellikleri:
 - Bluetooh ile cihazdan verilerin okunup ekrana yazılması.
@@ -48,9 +50,9 @@ Uygulamanın Son Sürümünü buradan indirebilirsiniz:
 
 - Android Studio ile aç.
 
-- Gradle sync tamamlandıktan sonra fiziksel cihaza deploy et.
+- Gradle sync tamamlandıktan sonra build edip fiziksel cihazına yükle.
 
-- Uygulama açıldığında önce Bluetooth cihazına bağlan, ardından veri izleme ekranına geçiş yapılır.
+- Uygulama açıldığında önce Bluetooth cihazına bağlanıp daha sonra yönetim sayfasına geçiş yapabilirsin.
 
 ---
 
