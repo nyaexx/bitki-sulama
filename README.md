@@ -11,7 +11,7 @@
 </p>
 
 ---
-Bu proje, belirli bir bitkinin toprak nemi ve hava değerlerini ölçerek bir Arduino devresiyle otomatik sulama işlemleri yapmayı sağlar. Ayrıca, verileri gözlemleyebileceğiniz ve Bluetooth aracılığıyla bu verileri çekebileceğiniz bir Android uygulaması da bulunmaktadır.
+Bu proje, belirli bir bitkinin toprak nemi ve hava değerlerini ölçerek bir Arduino devresiyle otomatik sulama işlemleri yapmayı sağlar. Ayrıca, verileri gözlemleyebileceğiniz ve sulama işlemini manuel yapabildiğiniz bluetooth aracılığıyla çalışan bir Android uygulaması da bulunmaktadır.
 
 ---
 ### Android Uygulamasını İndirme:
