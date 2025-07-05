@@ -11,11 +11,11 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)  // Burada splash ekranı layout'unu ekleyeceğiz
 
-        // Handler kullanarak 2 saniye sonra MainActivity'ye geçiş
+        // Handler kullanarak 700 ms sonra MainActivity'ye geçiş
         Handler().postDelayed({
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()  // Splash screen kapatılır
-        }, 2000)  // 2 saniye bekleme
+        }, 1000)  // bekleme süresi (ms)
     }
 }

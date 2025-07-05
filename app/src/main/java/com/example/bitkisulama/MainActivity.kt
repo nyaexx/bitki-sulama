@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     private val bluetoothDevices = mutableListOf<BluetoothDevice>()
     private lateinit var adapter: ArrayAdapter<String>
 
-    // GitHub hesap URL'niz - bunu kendi GitHub adresinizle değiştirin
+
     private val GITHUB_URL = "https://github.com/nyaexx/bitki-sulama"
 
     private val bluetoothPermissionLauncher =
