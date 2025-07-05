@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MonitoringActivity">
+    tools:context=".MonitoringActivity"
+    android:fitsSystemWindows="true">>
 
     <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/backgroundColor"
         android:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Yönetim Paneli"
-            android:textColor="@android:color/white"
+            android:textColor="?attr/colorPrimary"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:text="Sıcaklık: --°C"
-        android:textColor="@color/textPrimary"
+        android:textColor="?attr/colorPrimary"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Nem: --%"
-        android:textColor="@color/textPrimary"
+        android:textColor="?attr/colorPrimary"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Toprak Nemi: --"
-        android:textColor="@color/textPrimary"
+        android:textColor="?attr/colorPrimary"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,6 +76,7 @@
         android:layout_marginEnd="32dp"
         android:padding="16dp"
         android:text="@string/manuel_sulama"
+        android:textColor="?attr/colorOnSurface"
         android:backgroundTint="@color/secondaryColor"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -92,6 +93,7 @@
         android:layout_marginEnd="32dp"
         android:padding="16dp"
         android:text="@string/baglantiyi_kes"
+        android:textColor="?attr/colorOnSurface"
         android:textSize="18sp"
         android:backgroundTint="#F44336"
         app:layout_constraintEnd_toEndOf="parent"
