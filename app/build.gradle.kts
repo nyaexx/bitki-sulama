@@ -13,7 +13,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 1
-        versionName = "1.2"
+        versionName = "1.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation("androidx.core:core-splashscreen:1.0.0")
+    implementation("com.google.android.material:material:1.12.0")
 
     // AppCompat kütüphanesini ekliyoruz
     implementation("androidx.appcompat:appcompat:1.6.1")
