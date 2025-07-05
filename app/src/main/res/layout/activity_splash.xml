@@ -6,8 +6,10 @@
         android:id="@+id/splash_image"
         android:layout_width="110dp"
         android:layout_height="110dp"
-        android:src="@drawable/splashyuvarlak"
+        android:src="@drawable/ic_splash_logo"
+        android:tint="?attr/colorPrimaryDark"
         android:layout_centerInParent="true" />
+
 
 
     <TextView
@@ -17,7 +19,7 @@
         android:text="@string/app_name_version"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="#FFFFFF"
+        android:textColor="?attr/colorPrimaryDark"
         android:layout_below="@id/splash_image"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp" />
@@ -29,7 +31,7 @@
         android:layout_below="@id/splash_image"
         android:layout_marginTop="220dp"
         android:text="@string/made"
-        android:textColor="#FFFFFF"
+        android:textColor="?attr/colorPrimaryDark"
         android:textSize="24sp"
         android:layout_centerHorizontal="true"
         android:textStyle="italic" />
