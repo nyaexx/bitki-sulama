@@ -1,6 +1,7 @@
 package com.example.bitkisulama
 
 import android.Manifest
+import android.app.Dialog
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.content.Intent
@@ -8,10 +9,12 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.view.Window
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ListView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -27,7 +30,6 @@ class MainActivity : AppCompatActivity() {
     private val deviceList = mutableListOf<String>()
     private val bluetoothDevices = mutableListOf<BluetoothDevice>()
     private lateinit var adapter: ArrayAdapter<String>
-
 
     private val GITHUB_URL = "https://github.com/nyaexx/bitki-sulama"
 
@@ -45,20 +47,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Toolbar'ı ayarla
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        // Varsayılan başlık metnini gizle
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        // GitHub butonunu ayarla
         val githubButton = findViewById<ImageButton>(R.id.github_button)
         githubButton.setOnClickListener {
-            openGitHubPage()
+            showAboutDialog()
         }
 
-        // Paylaş butonunu ayarla
         val shareButton = findViewById<ImageButton>(R.id.share_button)
         shareButton.setOnClickListener {
             shareApp()
@@ -94,17 +92,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * GitHub sayfasını tarayıcıda açar
-     */
+
+    private fun showAboutDialog() {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_about)
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val githubLink = dialog.findViewById<TextView>(R.id.github_link)
+        githubLink.setOnClickListener {
+            openGitHubPage()
+            dialog.dismiss()
+        }
+
+
+        dialog.show()
+    }
+
+
     private fun openGitHubPage() {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_URL))
         startActivity(intent)
     }
 
-    /**
-     * Uygulamayı paylaşma menüsünü açar
-     */
     private fun shareApp() {
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.type = "text/plain"
