@@ -1,21 +1,41 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+-dontwarn
+-dontnote
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+-dontpreverify
+-overloadaggressively
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+
+-keepattributes *Annotation*
+-keep class com.google.android.material.** { *; }
+-keep interface com.google.android.material.** { *; }
+
+
+-keep class androidx.appcompat.** { *; }
+-keep interface androidx.appcompat.** { *; }
+
+
+-keep class androidx.constraintlayout.** { *; }
+
+
+-keep class android.bluetooth.** { *; }
+-keep interface android.bluetooth.** { *; }
+
+-keep class * extends android.app.Activity { *; }
+-keep class * extends android.app.Service { *; }
+-keep class * extends android.content.BroadcastReceiver { *; }
+-keep class * extends android.content.ContentProvider { *; }
+
+-keep class **.R {
+    <fields>;
+}
+-keep class **.R$* {
+    <fields>;
+}
+
+-keep class * extends android.view.View {
+    public <init>(android.content.Context);
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+

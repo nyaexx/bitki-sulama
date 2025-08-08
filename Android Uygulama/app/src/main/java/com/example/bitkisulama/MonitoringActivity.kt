@@ -36,12 +36,10 @@ class MonitoringActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_monitoring)
 
-        // Toolbar'ı ayarla
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false) // Varsayılan başlığı gizle
 
-        // Geri dön okuna tıklama olayını ayarla
         toolbar.setNavigationOnClickListener {
             disconnectAndGoBack()
         }
@@ -52,17 +50,14 @@ class MonitoringActivity : AppCompatActivity() {
         manualWateringButton = findViewById(R.id.manualWateringButton)
         disconnectButton = findViewById(R.id.disconnectButton)
 
-        // Başlangıç değerlerini ayarla
         temperatureTextView.text = "Sıcaklık: --°C"
         humidityTextView.text = "Nem: --%"
         soilMoistureTextView.text = "Toprak Nemi: --"
 
-        // Manuel sulama butonu için tıklama olayı ekle
         manualWateringButton.setOnClickListener {
             sendWateringCommand()
         }
 
-        // Bağlantıyı kesme butonu için tıklama olayı ekle
         disconnectButton.setOnClickListener {
             disconnectAndGoBack()
         }
@@ -80,7 +75,6 @@ class MonitoringActivity : AppCompatActivity() {
     private fun sendWateringCommand() {
         if (bluetoothSocket?.isConnected == true && ::outputStream.isInitialized) {
             try {
-                // Manuel sulama komutu olarak "WATER" gönder
                 val command = "WATER\n"
                 outputStream.write(command.toByteArray())
                 Toast.makeText(this, "Sulama komutu gönderildi", Toast.LENGTH_SHORT).show()
@@ -96,17 +90,14 @@ class MonitoringActivity : AppCompatActivity() {
 
     private fun disconnectAndGoBack() {
         try {
-            // Bağlantıyı kapat
             if (::inputStream.isInitialized) inputStream.close()
             if (::outputStream.isInitialized) outputStream.close()
             readThread?.interrupt()
             bluetoothSocket?.close()
 
-            // Kullanıcıya mesaj göster
             Toast.makeText(this, "Bluetooth bağlantısı kesildi", Toast.LENGTH_SHORT).show()
             Log.d(TAG, "Bluetooth bağlantısı kesildi")
 
-            // Ana ekrana dön
             finish()
         } catch (e: Exception) {
             Toast.makeText(this, "Bağlantı kapatılırken hata: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -124,8 +115,6 @@ class MonitoringActivity : AppCompatActivity() {
                 Toast.makeText(this, "${device.name} bağlantı başarılı!", Toast.LENGTH_SHORT).show()
                 inputStream = bluetoothSocket?.inputStream!!
                 outputStream = bluetoothSocket?.outputStream!!
-
-                // Veri okuma thread'ini başlat
                 startReadingData()
             }
         } catch (e: Exception) {
@@ -147,7 +136,7 @@ class MonitoringActivity : AppCompatActivity() {
                         val data = String(buffer, 0, bytes)
                         processReceivedData(data)
                     }
-                    Thread.sleep(100) // CPU yükünü azaltmak için kısa bir bekleme
+                    Thread.sleep(100)
                 } catch (e: Exception) {
                     Log.e(TAG, "Veri okuma hatası: ${e.message}")
                     break
@@ -158,33 +147,23 @@ class MonitoringActivity : AppCompatActivity() {
     }
 
     private fun processReceivedData(data: String) {
-        // Gelen veriyi buffer'a ekle
         buffer.append(data)
         Log.d(TAG, "Alınan ham veri: $data")
         Log.d(TAG, "Buffer durumu: $buffer")
 
-        // Veri setinin tamamını kontrol et (3 sensör değeri)
-        // Arduino'dan: Sıcaklık: XX.X°C | Toprak Nemi: XX | Nem: %XX.X formatında gelir
-
-        // Buffer'da en az bir tam veri seti olup olmadığını kontrol et
         if (buffer.indexOf("Sıcaklık:") != -1 &&
             buffer.indexOf("Toprak Nemi:") != -1 &&
             buffer.indexOf("Nem:") != -1 &&
             buffer.lastIndexOf("\n") != -1) {
 
-            // Tüm veriyi parçalara ayır
             val completeData = buffer.toString()
 
-            // Sıcaklık verisini bulma
             findTemperature(completeData)
 
-            // Toprak nemi verisini bulma
             findSoilMoisture(completeData)
 
-            // Nem verisini bulma
             findHumidity(completeData)
 
-            // Buffer'ı en son bulunan yeni satırdan sonra temizle
             val lastNewline = buffer.lastIndexOf("\n")
             if (lastNewline != -1) {
                 buffer.delete(0, lastNewline + 1)
@@ -237,7 +216,6 @@ class MonitoringActivity : AppCompatActivity() {
                 val endIndex = data.indexOf("\n", startIndex)
                 if (endIndex != -1) {
                     val humidityLine = data.substring(startIndex, endIndex)
-                    // Nem değeri "%XX.X" formatında geliyor
                     handler.post {
                         humidityTextView.text = "Nem: " + humidityLine.substringAfter("Nem:").trim()
                         Log.d(TAG, "Nem güncellendi: " + humidityLine.substringAfter("Nem:").trim())
@@ -263,7 +241,6 @@ class MonitoringActivity : AppCompatActivity() {
         }
     }
 
-    // Geri butonuna basıldığında da bağlantıyı düzgün kapatalım
     @Suppress("DEPRECATION")
     override fun onBackPressed() {
         disconnectAndGoBack()

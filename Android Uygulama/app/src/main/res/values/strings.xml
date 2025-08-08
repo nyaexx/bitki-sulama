@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Bitki Sulama</string>
     <string name="made">made by nyaex</string>
-    <string name="app_name_version">Bitki Sulama 1.4</string>
+    <string name="app_name_version">Bitki Sulama 1.5</string>
     <string name="github">Github</string>
     <string name="share">Paylaş</string>
     <string name="search_device">Cihazları Bul</string>

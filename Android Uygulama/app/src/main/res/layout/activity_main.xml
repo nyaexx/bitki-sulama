@@ -37,7 +37,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/github"
                 app:tint="?attr/colorPrimaryDark"
-                android:src="@drawable/ic_github" />
+                android:src="@drawable/round_info" />
 
             <ImageButton
                 android:id="@+id/share_button"
