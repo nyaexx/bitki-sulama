@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
 }
 
 android {
@@ -13,13 +12,13 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 1
-        versionName = "1.4"
-
+        versionName = "1.5"
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -33,34 +32,23 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    buildFeatures {
-        compose = true
-    }
 }
 
 dependencies {
+    // Temel Android KTX
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    implementation("androidx.core:core-splashscreen:1.0.0")
+
+
+    // Material Components (Toolbar, Button, Dialog vb.)
     implementation("com.google.android.material:material:1.12.0")
 
-    // AppCompat kütüphanesini ekliyoruz
+    // AppCompat (Eski API desteği için)
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation(libs.material)
-    implementation(libs.androidx.activity)
+
+    // ConstraintLayout (XML’de layout için)
     implementation(libs.androidx.constraintlayout)
 
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+    // Splash Screen API (opsiyonel, eğer kullanmıyorsan çıkar)
+    implementation("androidx.core:core-splashscreen:1.0.0")
+
 }
