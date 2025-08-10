@@ -18,11 +18,11 @@ Uygulamanın Son Sürümünü buradan indirebilirsiniz:
 
 ### Android Uygulamasının Genel Özellikleri:
 - Bluetooh ile cihazdan verilerin okunup ekrana yazılması.
-- Manuel olarak su motorunun çalıştırılması
+- Manuel olarak su motorunun kontrol edilmesi.
 
 ---
 
-### Android Uygulaması Üzerinde Değişiklik Yapma:
+### Android Uygulamasını Geliştirme:
 
 **Gereklilikler:**
 
@@ -46,7 +46,7 @@ Uygulamanın Son Sürümünü buradan indirebilirsiniz:
 
 - Gradle sync tamamlandıktan sonra build edip fiziksel cihazına yükle.
 
-- Uygulama açıldığında önce Bluetooth cihazına bağlanıp daha sonra yönetim sayfasına geçiş yapabilirsin.
+- Uygulama yüklendiğinde önce Bluetooth ayarlarından cihazına bağlanıp daha sonra uygulamadan cihazı seçip yönetim sayfasına geçiş yapabilir ve sistemi kotnrol edebilirsin.
 
 ---
 
@@ -57,9 +57,9 @@ Kurulum için aşağıdaki bağlantı şemasına göre devreyi kurun:
 </p>
 
 > [!NOTE]
-> Kullanım içinse [bu dizindeki](https://github.com/nyaexx/bitki-sulama/tree/main/Arduino%20Kodlar%C4%B1) arduino kodlarını ve libraries klasöründeki kütüphaneleri cihazınıza yükleyip kullanabilirsiniz.
+> Kullanım içinse [bu dizindeki](https://github.com/nyaexx/bitki-sulama/tree/main/Arduino%20Kodlar%C4%B1) Arduino kodlarını ve libraries klasöründeki kütüphaneleri cihazınıza yükleyip kullanabilirsiniz.
 >
-> Unutmayın eğer orjinal arduino uno kullanmıyorsanız kesinlikle [Arduino Kodları](https://github.com/nyaexx/bitki-sulama/tree/main/Arduino%20Kodlar%C4%B1) dinizindeki libraries klasöründe bulunan CH340 kütüphanesinin kurulumunu yapınız. Aksi takdirde kurulumunu yapmanıza gerek yoktur.
+> Unutmayın eğer orjinal Arduino Uno kullanmıyorsanız kesinlikle [Arduino Kodları](https://github.com/nyaexx/bitki-sulama/tree/main/Arduino%20Kodlar%C4%B1) dinizindeki libraries klasöründe bulunan CH340 kütüphanesinin kurulumunu yapınız. Aksi takdirde kurulumunu yapmanıza gerek yoktur.
 
 > [!CAUTION]
 > ``Bluetooht Bağlantısı İçin Yapılması Gerekenler:``
@@ -73,7 +73,7 @@ Eğer bluetooth bağlı gözükürken eşleşme yapılamazsa devrede elektriği 
 ---
 
 > [!NOTE]
-> Yardım veya herhangi bir soru için discord: nyaexx
+> Yardım veya herhangi bir soru için discord: nyaex
 > 
 > Repoya bir şey eklemek ister veya bir hatayı düzeltmek isterseniz pull request atabilirsiniz.
 
