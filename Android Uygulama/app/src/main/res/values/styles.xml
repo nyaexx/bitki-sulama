@@ -2,8 +2,8 @@
 
     <style name="Theme.BitkiSulama" parent="Theme.Material3.DynamicColors.DayNight.NoActionBar">
 
-        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
 
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorOnPrimary">@color/onPrimary</item>
