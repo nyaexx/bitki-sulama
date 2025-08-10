@@ -12,7 +12,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 1
-        versionName = "1.5"
+        versionName = "1.6"
     }
 
     buildTypes {
@@ -35,20 +35,19 @@ android {
 }
 
 dependencies {
-    // Temel Android KTX
+
     implementation(libs.androidx.core.ktx)
 
 
-    // Material Components (Toolbar, Button, Dialog vb.)
-    implementation("com.google.android.material:material:1.12.0")
 
-    // AppCompat (Eski API desteği için)
+    implementation(libs.material)
+
+
     implementation("androidx.appcompat:appcompat:1.6.1")
 
-    // ConstraintLayout (XML’de layout için)
+
     implementation(libs.androidx.constraintlayout)
 
-    // Splash Screen API (opsiyonel, eğer kullanmıyorsan çıkar)
-    implementation("androidx.core:core-splashscreen:1.0.0")
+ 
 
 }
