@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:text="Düzgün çalışması için bazen ayarlar>uygulamalar>Bitki Sulama kısmından izinler kısmından Bluetooh ve konum yetkisi vermeniz gerekebilir. Ayrıca cihazları bul demeden öncede Bluetooth kartınıza bağlanmış olmanız gerekebilir."
+                android:text="@string/about_info"
                 android:textSize="14sp"
                 android:textColor="?attr/colorOnSurface"
                 android:lineSpacingMultiplier="1.2" />
@@ -52,7 +52,7 @@
         android:textColor="?attr/colorPrimary"
         android:textStyle="bold"
         android:padding="12dp"
-        android:background="?attr/selectableItemBackground"
+        android:background="@drawable/item_select_menu"
         android:gravity="center"
         android:layout_marginBottom="10dp"
         android:drawablePadding="8dp" />
