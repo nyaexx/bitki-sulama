@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Window
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -86,9 +87,23 @@ class MainActivity : AppCompatActivity() {
 
         deviceListView.setOnItemClickListener { _, _, position, _ ->
             val device = bluetoothDevices[position]
-            val intent = Intent(this, MonitoringActivity::class.java)
-            intent.putExtra("device_address", device.address)
-            startActivity(intent)
+            try {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
+                    val bondState = device.bondState
+                    if (bondState == BluetoothDevice.BOND_BONDED) {
+                        val intent = Intent(this, MonitoringActivity::class.java)
+                        intent.putExtra("device_address", device.address)
+                        startActivity(intent)
+                    } else {
+                        Toast.makeText(this, "Cihaz aktif değil veya eşleşme yapılmamış", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(this, "Bluetooth izinleri eksik", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this, "Cihaza erişilemiyor: ${e.message}", Toast.LENGTH_SHORT).show()
+                Log.e("MainActivity", "Cihaz erişim hatası: ${e.message}")
+            }
         }
     }
 
