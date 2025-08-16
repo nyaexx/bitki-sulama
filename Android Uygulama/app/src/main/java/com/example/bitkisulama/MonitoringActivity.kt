@@ -38,7 +38,7 @@ class MonitoringActivity : AppCompatActivity() {
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false) // Varsayılan başlığı gizle
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         toolbar.setNavigationOnClickListener {
             disconnectAndGoBack()
@@ -106,22 +106,59 @@ class MonitoringActivity : AppCompatActivity() {
     }
 
     private fun connectToDevice(device: BluetoothDevice) {
-        try {
-            val uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB") // SPP UUID
-            bluetoothSocket = device.createRfcommSocketToServiceRecord(uuid)
-            bluetoothSocket?.connect()
+        Thread {
+            try {
+                if (device.bondState != BluetoothDevice.BOND_BONDED) {
+                    handler.post {
+                        Toast.makeText(this, "Cihaz aktif değil veya eşleşme yapılmamış", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                    return@Thread
+                }
 
-            if (bluetoothSocket?.isConnected == true) {
-                Toast.makeText(this, "${device.name} bağlantı başarılı!", Toast.LENGTH_SHORT).show()
-                inputStream = bluetoothSocket?.inputStream!!
-                outputStream = bluetoothSocket?.outputStream!!
-                startReadingData()
+                val uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
+                bluetoothSocket = device.createRfcommSocketToServiceRecord(uuid)
+                
+                try {
+                    bluetoothSocket?.connect()
+                } catch (connectException: Exception) {
+                    Log.e(TAG, "İlk bağlantı denemesi başarısız: ${connectException.message}")
+                    bluetoothSocket?.close()
+                    handler.post {
+                        Toast.makeText(this, "Cihaza bağlanılamadı: Cihaz kapalı veya kapsama alanı dışında", Toast.LENGTH_LONG).show()
+                        finish()
+                    }
+                    return@Thread
+                }
+
+                if (bluetoothSocket?.isConnected == true) {
+                    inputStream = bluetoothSocket?.inputStream!!
+                    outputStream = bluetoothSocket?.outputStream!!
+
+                    handler.post {
+                        Toast.makeText(this, "${device.name ?: "Bilinmeyen Cihaz"} bağlantı başarılı!", Toast.LENGTH_SHORT).show()
+                        startReadingData()
+                    }
+                } else {
+                    handler.post {
+                        Toast.makeText(this, "Bağlantı kurulamadı: Cihaz yanıt vermiyor", Toast.LENGTH_LONG).show()
+                        finish()
+                    }
+                }
+            } catch (e: SecurityException) {
+                Log.e(TAG, "Güvenlik hatası: ${e.message}")
+                handler.post {
+                    Toast.makeText(this, "Bluetooth izinleri eksik", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Genel bağlantı hatası: ${e.message}")
+                handler.post {
+                    Toast.makeText(this, "Bağlantı hatası: ${e.message}", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
             }
-        } catch (e: Exception) {
-            Log.e(TAG, "Bağlantı hatası: ${e.message}")
-            Toast.makeText(this, "Bağlantı kurulamadı: ${e.message}", Toast.LENGTH_SHORT).show()
-            finish()
-        }
+        }.start()
     }
 
     private fun startReadingData() {
