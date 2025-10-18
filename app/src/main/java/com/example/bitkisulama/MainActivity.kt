@@ -89,7 +89,6 @@ class MainActivity : AppCompatActivity() {
         deviceListView.setOnItemClickListener { _, _, position, _ ->
             val device = bluetoothDevices[position]
             try {
-                // Cihazın bağlanabilir durumda olup olmadığını kontrol et
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
                     val bondState = device.bondState
                     if (bondState == BluetoothDevice.BOND_BONDED) {
