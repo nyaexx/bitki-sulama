@@ -1,4 +1,4 @@
-package com.example.bitkisulama
+package gndsalih.nyaexx.bitkisulama
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
@@ -12,9 +12,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import gndsalih.nyaexx.bitkisulama.R
 import java.io.InputStream
 import java.io.OutputStream
-import java.util.*
+import java.util.UUID
 
 class MonitoringActivity : AppCompatActivity() {
 
@@ -118,7 +119,7 @@ class MonitoringActivity : AppCompatActivity() {
 
                 val uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
                 bluetoothSocket = device.createRfcommSocketToServiceRecord(uuid)
-                
+
                 try {
                     bluetoothSocket?.connect()
                 } catch (connectException: Exception) {
