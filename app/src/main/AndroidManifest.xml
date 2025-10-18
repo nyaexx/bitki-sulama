@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.bitkisulama">
+    package="gndsalih.nyaexx.bitkisulama">
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -13,7 +13,7 @@
     <uses-feature android:name="android.hardware.bluetooth" android:required="true" />
 
     <application
-        android:name=".MyApplication"
+        android:name="gndsalih.nyaexx.bitkisulama.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Bitki Sulama"
@@ -22,7 +22,7 @@
         android:theme="@style/Theme.BitkiSulama">
 
         <activity
-            android:name=".SplashActivity"
+            android:name="gndsalih.nyaexx.bitkisulama.SplashActivity"
             android:theme="@style/Theme.BitkiSulama"
             android:exported="true">
             <intent-filter>
@@ -32,12 +32,12 @@
         </activity>
 
         <activity
-            android:name=".MainActivity"
+            android:name="gndsalih.nyaexx.bitkisulama.MainActivity"
             android:theme="@style/Theme.BitkiSulama"
             android:exported="true" />
 
         <activity
-            android:name=".MonitoringActivity"
+            android:name="gndsalih.nyaexx.bitkisulama.MonitoringActivity"
             android:theme="@style/Theme.BitkiSulama"
             android:exported="true" />
 

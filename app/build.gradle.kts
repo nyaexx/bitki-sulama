@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.bitkisulama"
+    namespace = "gndsalih.nyaexx.bitkisulama"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.bitkisulama"
+        applicationId = "gndsalih.nyaexx.bitkisulama"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

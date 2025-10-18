@@ -1,8 +1,8 @@
-package com.example.bitkisulama
+package gndsalih.nyaexx.bitkisulama
 
 import android.app.Application
-import com.google.android.material.color.DynamicColors
 import android.util.Log
+import com.google.android.material.color.DynamicColors
 
 class MyApplication : Application() {
 

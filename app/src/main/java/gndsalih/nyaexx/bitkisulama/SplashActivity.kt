@@ -1,9 +1,10 @@
-package com.example.bitkisulama
+package gndsalih.nyaexx.bitkisulama
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Handler
+import androidx.appcompat.app.AppCompatActivity
+import gndsalih.nyaexx.bitkisulama.R
 
 class SplashActivity : AppCompatActivity() {
 
