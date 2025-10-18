@@ -23,6 +23,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var bluetoothAdapter: BluetoothAdapter
@@ -88,6 +89,7 @@ class MainActivity : AppCompatActivity() {
         deviceListView.setOnItemClickListener { _, _, position, _ ->
             val device = bluetoothDevices[position]
             try {
+                // Cihazın bağlanabilir durumda olup olmadığını kontrol et
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
                     val bondState = device.bondState
                     if (bondState == BluetoothDevice.BOND_BONDED) {
@@ -107,23 +109,37 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun showAboutDialog() {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_about)
-
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
+        val versionText = dialog.findViewById<TextView>(R.id.version_text)
         val githubLink = dialog.findViewById<TextView>(R.id.github_link)
+
+        val versionName = try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                packageManager.getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(0)).versionName
+            } else {
+                @Suppress("DEPRECATION")
+                packageManager.getPackageInfo(packageName, 0).versionName
+            }
+        } catch (e: Exception) {
+            "Bilinmiyor"
+        }
+        versionText.text = "v$versionName"
+
         githubLink.setOnClickListener {
-            openGitHubPage()
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/nyaexx/bitki-sulama"))
+            startActivity(intent)
             dialog.dismiss()
         }
 
-
         dialog.show()
     }
+
+
 
 
     private fun openGitHubPage() {
