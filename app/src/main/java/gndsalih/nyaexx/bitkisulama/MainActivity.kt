@@ -1,4 +1,4 @@
-package com.example.bitkisulama
+package gndsalih.nyaexx.bitkisulama
 
 import android.Manifest
 import android.app.Dialog
@@ -22,7 +22,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-
+import gndsalih.nyaexx.bitkisulama.MonitoringActivity
+import gndsalih.nyaexx.bitkisulama.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -130,7 +131,8 @@ class MainActivity : AppCompatActivity() {
         versionText.text = "v$versionName"
 
         githubLink.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/nyaexx/bitki-sulama"))
+            val intent =
+                Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/nyaexx/bitki-sulama"))
             startActivity(intent)
             dialog.dismiss()
         }
