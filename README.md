@@ -32,9 +32,9 @@ Uygulamanın Son Sürümünü buradan indirebilirsiniz:
 
     Gradle (Android Studio ile birlikte gelir)
 
-    Min SDK: 24, Target SDK: 35
+    Min SDK: 24, Target SDK: 36 (Release n1.6 ve öncesi için Target SDK: 35'dir)
 
-    Fiziksel Android cihaz (Bluetooth bağlantısı için)
+    Fiziksel Android cihaz (Bluetooth özelliklerinin kullanılması için gereklidir.)
 
 **Nasıl Çalıştırılır?**
 
@@ -46,7 +46,7 @@ Uygulamanın Son Sürümünü buradan indirebilirsiniz:
 
 - Gradle sync tamamlandıktan sonra build edip fiziksel cihazına yükle.
 
-- Uygulama yüklendiğinde önce Bluetooth ayarlarından cihazına bağlanıp daha sonra uygulamadan cihazı seçip yönetim sayfasına geçiş yapabilir ve sistemi kotnrol edebilirsin.
+- Uygulama yüklendiğinde önce Bluetooth ayarlarından cihazına bağlanıp daha sonra uygulamadan cihazı seçip yönetim sayfasına geçiş yapabilir ve sistemi kontrol edebilirsin. (Eğer cihaza bağlanırken sorun çıkarsa Ayarlar > Uygulamalar > Bitki Sulama > İzinler kısmından Bluetooth cihazlarına bağlanma ve konum izinlerini verdiğinizden emin olun.)
 
 ---
 
