@@ -4,24 +4,23 @@ import android.Manifest
 import android.app.Dialog
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Window
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ListView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.material.materialswitch.MaterialSwitch
 import gndsalih.nyaexx.bitkisulama.MonitoringActivity
 import gndsalih.nyaexx.bitkisulama.R
 
@@ -30,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bluetoothAdapter: BluetoothAdapter
     private lateinit var deviceListView: ListView
     private lateinit var connectButton: Button
+    private lateinit var settingsButton: Button
     private val deviceList = mutableListOf<String>()
     private val bluetoothDevices = mutableListOf<BluetoothDevice>()
     private lateinit var adapter: ArrayAdapter<String>
@@ -47,47 +47,44 @@ class MainActivity : AppCompatActivity() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // 1. Önce Animasyon (Varsa) ve Tema Hazırlıkları
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, android.R.anim.fade_in, android.R.anim.fade_out)
+        } else {
+            @Suppress("DEPRECATION")
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        }
+
         super.onCreate(savedInstanceState)
+
+        // 2. MUTLAKA ÖNCE LAYOUT'U SET ET
         setContentView(R.layout.activity_main)
 
+        // 3. UI ELEMANLARINI BAĞLA (Init)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val window = window
-            val decorView = window.decorView
-            val wic = androidx.core.view.WindowInsetsControllerCompat(window, decorView)
-
-            // Arka plan rengini kontrol et (Dinamik tema dahil)
-            val typedValue = android.util.TypedValue()
-            theme.resolveAttribute(com.google.android.material.R.attr.colorSurface, typedValue, true)
-            val colorSurface = typedValue.data
-
-            // Rengin aydınlık mı karanlık mı olduğunu hesapla
-            val isLightBackground = androidx.core.graphics.ColorUtils.calculateLuminance(colorSurface) > 0.5
-
-            // Eğer arka plan aydınlıksa (beyazsa) ikonları siyah yap, karanlıksa beyaz yap
-            wic.isAppearanceLightStatusBars = isLightBackground
-        }
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        val githubButton = findViewById<ImageButton>(R.id.github_button)
-        githubButton.setOnClickListener {
-            showAboutDialog()
-        }
-
-        val shareButton = findViewById<ImageButton>(R.id.share_button)
-        shareButton.setOnClickListener {
-            shareApp()
-        }
-
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-
+        // Lateinit özelliklerini burada başlatıyoruz
         deviceListView = findViewById(R.id.deviceListView)
         connectButton = findViewById(R.id.connectButton)
+        settingsButton = findViewById(R.id.settingsButton)
 
-        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, deviceList)
-        deviceListView.adapter = adapter
+        // 4. GÖRÜNÜM AYARLARI
+        setupStatusBarContrast()
+
+        // Android 12+ ise Ayarlar Butonunu Göster
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            settingsButton.visibility = android.view.View.VISIBLE
+            settingsButton.setOnClickListener { showSettingsDialog() }
+        }
+
+        // 5. CLICK LISTENER'LAR
+        findViewById<ImageButton>(R.id.github_button).setOnClickListener { showAboutDialog() }
+        findViewById<ImageButton>(R.id.share_button).setOnClickListener { shareApp() }
+
+        // 6. BLUETOOTH İŞLEMLERİ
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
 
         connectButton.setOnClickListener {
             if (bluetoothAdapter == null) {
@@ -103,26 +100,63 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        // Cihaz Seçimi ve Geçiş
         deviceListView.setOnItemClickListener { _, _, position, _ ->
             val device = bluetoothDevices[position]
             try {
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
-                    val bondState = device.bondState
-                    if (bondState == BluetoothDevice.BOND_BONDED) {
-                        val intent = Intent(this, MonitoringActivity::class.java)
-                        intent.putExtra("device_address", device.address)
-                        startActivity(intent)
-                    } else {
-                        Toast.makeText(this, "Cihaz aktif değil veya eşleşme yapılmamış", Toast.LENGTH_SHORT).show()
-                    }
+                    val intent = Intent(this, MonitoringActivity::class.java)
+                    intent.putExtra("device_address", device.address)
+                    startActivity(intent)
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                 } else {
                     Toast.makeText(this, "Bluetooth izinleri eksik", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
-                Toast.makeText(this, "Cihaza erişilemiyor: ${e.message}", Toast.LENGTH_SHORT).show()
-                Log.e("MainActivity", "Cihaz erişim hatası: ${e.message}")
+                Log.e("MainActivity", "Hata: ${e.message}")
             }
         }
+    }
+
+    private fun setupStatusBarContrast() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val window = window
+            val wic = androidx.core.view.WindowInsetsControllerCompat(window, window.decorView)
+            val typedValue = android.util.TypedValue()
+            theme.resolveAttribute(com.google.android.material.R.attr.colorSurface, typedValue, true)
+            val isLightBackground = androidx.core.graphics.ColorUtils.calculateLuminance(typedValue.data) > 0.5
+            wic.isAppearanceLightStatusBars = isLightBackground
+        }
+    }
+
+    private fun showSettingsDialog() {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_settings)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val dynamicSwitch = dialog.findViewById<MaterialSwitch>(R.id.dynamicSwitch)
+        val sharedPref = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
+
+        val isDynamicEnabled = sharedPref.getBoolean("dynamic_colors", true)
+        dynamicSwitch.isChecked = isDynamicEnabled
+
+        dynamicSwitch.setOnCheckedChangeListener { _, isChecked ->
+            sharedPref.edit().putBoolean("dynamic_colors", isChecked).apply()
+
+            Toast.makeText(this, "Tema uygulanıyor...", Toast.LENGTH_SHORT).show()
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                // Uygulamayı tamamen kapat ve en baştan (Splash'ten) başlat
+                val packageManager = packageManager
+                val intent = packageManager.getLaunchIntentForPackage(packageName)
+                val componentName = intent?.component
+                val mainIntent = Intent.makeRestartActivityTask(componentName)
+                startActivity(mainIntent)
+                Runtime.getRuntime().exit(0) // Uygulama sürecini (process) tamamen bitir
+            }, 600)
+        }
+        dialog.show()
     }
 
     private fun showAboutDialog() {
@@ -132,61 +166,37 @@ class MainActivity : AppCompatActivity() {
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         val versionText = dialog.findViewById<TextView>(R.id.version_text)
-        val githubLink = dialog.findViewById<TextView>(R.id.github_link)
+
+        // HATALI YER BURASIYDI: TextView yerine View veya LinearLayout yapıyoruz
+        val githubLink = dialog.findViewById<android.view.View>(R.id.github_link)
 
         val versionName = try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                packageManager.getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(0)).versionName
-            } else {
-                @Suppress("DEPRECATION")
-                packageManager.getPackageInfo(packageName, 0).versionName
-            }
-        } catch (e: Exception) {
-            "Bilinmiyor"
-        }
-        versionText.text = "v$versionName"
+            packageManager.getPackageInfo(packageName, 0).versionName
+        } catch (e: Exception) { "Bilinmiyor" }
+
+        versionText.text = "n$versionName"
 
         githubLink.setOnClickListener {
-            val intent =
-                Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/nyaexx/bitki-sulama"))
-            startActivity(intent)
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_URL)))
             dialog.dismiss()
         }
-
         dialog.show()
     }
 
-
-
-
-    private fun openGitHubPage() {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_URL))
-        startActivity(intent)
-    }
-
     private fun shareApp() {
-        val shareIntent = Intent(Intent.ACTION_SEND)
-        shareIntent.type = "text/plain"
-        shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
-
-        val shareMessage = "Bitki Sulama uygulamamızı deneyin: " +
-                "https://github.com/nyaexx/bitki-sulama/releases/latest"
-
-        shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
+            putExtra(Intent.EXTRA_TEXT, "Bitki Sulama uygulamamızı deneyin: $GITHUB_URL")
+        }
         startActivity(Intent.createChooser(shareIntent, "Paylaş"))
     }
 
     private fun checkBluetoothPermissionsAndLoadDevices() {
-        val permissions = mutableListOf(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.BLUETOOTH
-        )
-
+        val permissions = mutableListOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.BLUETOOTH)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             permissions.add(Manifest.permission.BLUETOOTH_CONNECT)
             permissions.add(Manifest.permission.BLUETOOTH_SCAN)
-        } else {
-            permissions.add(Manifest.permission.BLUETOOTH_ADMIN)
         }
 
         val neededPermissions = permissions.filter {
@@ -201,16 +211,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupBluetooth() {
-        val hasPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED
-        } else {
-            ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) == PackageManager.PERMISSION_GRANTED
-        }
-
-        if (!hasPermission) {
-            Toast.makeText(this, "Bluetooth izni verilmedi", Toast.LENGTH_SHORT).show()
-            return
-        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED &&
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) return
 
         val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter.bondedDevices
         deviceList.clear()
@@ -224,8 +226,7 @@ class MainActivity : AppCompatActivity() {
         val customAdapter = object : ArrayAdapter<String>(this, R.layout.device_item, R.id.deviceName, deviceList) {
             override fun getView(position: Int, convertView: android.view.View?, parent: android.view.ViewGroup): android.view.View {
                 val view = super.getView(position, convertView, parent)
-                val addressText = view.findViewById<TextView>(R.id.deviceAddress)
-                addressText.text = bluetoothDevices[position].address
+                view.findViewById<TextView>(R.id.deviceAddress).text = bluetoothDevices[position].address
                 return view
             }
         }
