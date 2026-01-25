@@ -36,17 +36,18 @@
 
                 <ImageButton
                     android:id="@+id/github_button"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/round_info"
+                    android:layout_marginEnd="10dp"
                     app:tint="?attr/colorOnSurface" />
 
                 <ImageButton
                     android:id="@+id/share_button"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="16dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_share"
                     app:tint="?attr/colorOnSurface" />
@@ -67,7 +68,7 @@
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="24dp"
             app:cardElevation="0dp"
-            app:cardBackgroundColor="?attr/colorSecondaryContainer"
+            app:cardBackgroundColor="?attr/colorSurfaceVariant"
             style="?attr/materialCardViewFilledStyle">
 
             <ListView
@@ -81,12 +82,36 @@
                 android:clipToPadding="false" />
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/connectButton"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:text="@string/search_device"
-            app:icon="@drawable/outline_bluetooth_searching_24"
-            app:cornerRadius="16dp" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/connectButton"
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="@string/search_device"
+                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                app:cornerRadius="16dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/settingsButton"
+                style="@style/Widget.Material3.Button.ElevatedButton"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:padding="0dp"
+                android:visibility="gone"
+                app:icon="@drawable/ic_settings"
+                app:backgroundTint="?attr/colorSurfaceVariant"
+                app:iconSize="28dp"
+                app:iconPadding="0dp"
+                app:iconGravity="textStart"
+                app:cornerRadius="16dp" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
