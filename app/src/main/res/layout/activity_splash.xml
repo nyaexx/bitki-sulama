@@ -1,41 +1,54 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    tools:context=".SplashActivity">
 
-    <ImageView
+    <FrameLayout
+        android:id="@+id/logoContainer"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.45"> <ImageView
         android:id="@+id/splash_image"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:contentDescription="@string/logo"
         android:src="@drawable/ic_splash_logo"
-        android:layout_centerInParent="true"
         app:tint="?attr/colorPrimary" />
-
-
+    </FrameLayout>
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:text="@string/app_name_version"
+        android:textColor="?attr/colorPrimary"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="?attr/colorPrimaryDark"
-        android:layout_below="@id/splash_image"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoContainer" />
 
     <TextView
         android:id="@+id/MadeBy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/splash_image"
-        android:layout_marginTop="220dp"
+        android:layout_marginBottom="48dp"
         android:text="@string/made"
-        android:textColor="?attr/colorPrimaryDark"
-        android:textSize="24sp"
-        android:layout_centerHorizontal="true"
-        android:textStyle="italic" />
+        android:textColor="?attr/colorOnSurfaceVariant"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

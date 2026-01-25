@@ -53,6 +53,22 @@ class MainActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val window = window
+            val decorView = window.decorView
+            val wic = androidx.core.view.WindowInsetsControllerCompat(window, decorView)
+
+            // Arka plan rengini kontrol et (Dinamik tema dahil)
+            val typedValue = android.util.TypedValue()
+            theme.resolveAttribute(com.google.android.material.R.attr.colorSurface, typedValue, true)
+            val colorSurface = typedValue.data
+
+            // Rengin aydınlık mı karanlık mı olduğunu hesapla
+            val isLightBackground = androidx.core.graphics.ColorUtils.calculateLuminance(colorSurface) > 0.5
+
+            // Eğer arka plan aydınlıksa (beyazsa) ikonları siyah yap, karanlıksa beyaz yap
+            wic.isAppearanceLightStatusBars = isLightBackground
+        }
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val githubButton = findViewById<ImageButton>(R.id.github_button)
@@ -201,10 +217,18 @@ class MainActivity : AppCompatActivity() {
         bluetoothDevices.clear()
 
         pairedDevices?.forEach { device ->
-            deviceList.add("${device.name}\n${device.address}")
+            deviceList.add(device.name ?: "Bilinmeyen Cihaz")
             bluetoothDevices.add(device)
         }
 
-        adapter.notifyDataSetChanged()
+        val customAdapter = object : ArrayAdapter<String>(this, R.layout.device_item, R.id.deviceName, deviceList) {
+            override fun getView(position: Int, convertView: android.view.View?, parent: android.view.ViewGroup): android.view.View {
+                val view = super.getView(position, convertView, parent)
+                val addressText = view.findViewById<TextView>(R.id.deviceAddress)
+                addressText.text = bluetoothDevices[position].address
+                return view
+            }
+        }
+        deviceListView.adapter = customAdapter
     }
 }

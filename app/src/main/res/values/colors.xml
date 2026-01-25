@@ -6,7 +6,7 @@
 
     <color name="secondaryColor">#8BC34A</color>
     <color name="onSecondary">#FFFFFF</color>
-    <color name="secondaryContainer">#C5E1A5</color>
+    <color name="secondaryContainer">#2E2E2A</color>
     <color name="onSecondaryContainer">#33691E</color>
 
     <color name="tertiaryColor">#FF9800</color>
@@ -32,5 +32,7 @@
 
     <color name="primaryColorDark">#388E3C</color>
     <color name="accentColor">#FF9800</color>
+
+    <bool name="is_light_mode">true</bool>
 
 </resources>

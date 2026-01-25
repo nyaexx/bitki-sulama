@@ -5,14 +5,14 @@ plugins {
 
 android {
     namespace = "gndsalih.nyaexx.bitkisulama"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "gndsalih.nyaexx.bitkisulama"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
-        versionName = "1.6.1"
+        versionName = "1.7.0"
     }
 
     buildTypes {
