@@ -3,6 +3,7 @@ package gndsalih.nyaexx.bitkisulama
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -36,10 +37,28 @@ class MonitoringActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_monitoring)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val window = window
+            val decorView = window.decorView
+            val wic = androidx.core.view.WindowInsetsControllerCompat(window, decorView)
+
+            // Arka plan rengini kontrol et (Dinamik tema dahil)
+            val typedValue = android.util.TypedValue()
+            theme.resolveAttribute(com.google.android.material.R.attr.colorSurface, typedValue, true)
+            val colorSurface = typedValue.data
+
+            // Rengin aydınlık mı karanlık mı olduğunu hesapla
+            val isLightBackground = androidx.core.graphics.ColorUtils.calculateLuminance(colorSurface) > 0.5
+
+            // Eğer arka plan aydınlıksa (beyazsa) ikonları siyah yap, karanlıksa beyaz yap
+            wic.isAppearanceLightStatusBars = isLightBackground
+        }
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayShowTitleEnabled(true) // Başlığı aktif et
+        supportActionBar?.title = "Yönetim Paneli" // Yazıyı kodla ata
+
 
         toolbar.setNavigationOnClickListener {
             disconnectAndGoBack()
