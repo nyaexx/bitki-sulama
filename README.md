@@ -12,7 +12,7 @@ Bu proje, belirli bir bitkinin toprak nemi ve hava değerlerini ölçerek bir Ar
 
 Uygulamanın Son Sürümünü buradan indirebilirsiniz:
 
-[![](https://img.shields.io/badge/Bitki%20Sulama-n1.6-green)](https://github.com/nyaexx/bitki-sulama/releases/tag/n1.6) 
+[![](https://img.shields.io/badge/Bitki%20Sulama-n1.7.1-green)](https://github.com/nyaexx/bitki-sulama/releases/tag/n1.7.1) 
 
 - **Not:** Uygulama Android 7 ve üzeri için geliştirilmiştir.
 
