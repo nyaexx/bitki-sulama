@@ -109,7 +109,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:text="@string/manuel_sulama"
-                app:icon="@drawable/outline_favorite_24" />
+                app:icon="@drawable/outline_favorite_24"
+                app:iconSize="28dp"
+                app:iconGravity="textStart"
+                app:iconPadding="12dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/disconnectButton"
@@ -117,10 +120,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:text="@string/baglantiyi_kes"
-                app:backgroundTint="?attr/colorErrorContainer"
                 android:textColor="?attr/colorOnErrorContainer"
+                app:backgroundTint="?attr/colorErrorContainer"
+                app:icon="@drawable/outline_bluetooth_disabled_24"
                 app:iconTint="?attr/colorOnErrorContainer"
-                app:icon="@drawable/outline_bluetooth_disabled_24" />
+                app:iconSize="28dp"
+                app:iconGravity="textStart"
+                app:iconPadding="12dp" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
