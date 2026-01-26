@@ -13,7 +13,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import gndsalih.nyaexx.bitkisulama.R
 import java.io.InputStream
 import java.io.OutputStream
 import java.util.UUID

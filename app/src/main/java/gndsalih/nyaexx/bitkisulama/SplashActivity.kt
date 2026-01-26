@@ -5,7 +5,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
-import gndsalih.nyaexx.bitkisulama.R
 
 class SplashActivity : AppCompatActivity() {
 
