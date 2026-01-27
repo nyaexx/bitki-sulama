@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
@@ -115,9 +116,12 @@ class MainActivity : AppCompatActivity() {
 
         savedDevices.clear()
         if (json != null) {
-            val type = object : TypeToken<List<SavedDevice>>() {}.type
-            val list: List<SavedDevice> = Gson().fromJson(json, type)
-            savedDevices.addAll(list)
+            try {
+                val array = Gson().fromJson(json, Array<SavedDevice>::class.java)
+                savedDevices.addAll(array)
+            } catch (e: Exception) {
+                Log.e("MainActivity", "Veri okuma hatası: ${e.message}")
+            }
         }
 
         if (savedDevices.isEmpty()) {

@@ -215,8 +215,18 @@ class AddDeviceActivity : AppCompatActivity() {
     private fun saveDevice(customName: String, address: String, originalName: String) {
         val sharedPref = getSharedPreferences("saved_devices_pref", Context.MODE_PRIVATE)
         val json = sharedPref.getString("devices_list", null)
-        val type = object : TypeToken<MutableList<SavedDevice>>() {}.type
-        val list: MutableList<SavedDevice> = if (json == null) mutableListOf() else Gson().fromJson(json, type)
+
+        // TypeToken hatasını engellemek için Array kullanıp List'e çeviriyoruz
+        val list: MutableList<SavedDevice> = if (json == null) {
+            mutableListOf()
+        } else {
+            try {
+                val array = Gson().fromJson(json, Array<SavedDevice>::class.java)
+                array.toMutableList()
+            } catch (e: Exception) {
+                mutableListOf()
+            }
+        }
 
         list.removeAll { it.address == address }
         list.add(SavedDevice(customName, address, originalName))

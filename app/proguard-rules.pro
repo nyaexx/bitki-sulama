@@ -10,6 +10,8 @@
 -keep class com.google.android.material.** { *; }
 -keep interface com.google.android.material.** { *; }
 
+-keep class gndsalih.nyaexx.bitkisulama.SavedDevice { *; }
+
 
 -keep class androidx.appcompat.** { *; }
 -keep interface androidx.appcompat.** { *; }
