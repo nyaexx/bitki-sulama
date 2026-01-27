@@ -20,9 +20,10 @@
         android:background="?attr/selectableItemBackground">
 
         <ImageView
+            android:id="@+id/deviceIcon"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/outline_bluetooth_24"
+            android:src="@drawable/ic_leaf"
             app:tint="?attr/colorPrimary" />
 
         <LinearLayout

@@ -14,38 +14,36 @@
         android:padding="24dp">
 
         <TextView
+            android:id="@+id/deleteTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Uygulama Ayarları"
+            android:text="Cihazı Sil"
             android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+            android:textStyle="bold"
             android:layout_marginBottom="16dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="end">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Material You Kullan"
-                android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
-
-            <com.google.android.material.materialswitch.MaterialSwitch
-                android:id="@+id/dynamicSwitch"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDeleteCancel"
+                style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="Vazgeç"
+                android:layout_marginEnd="8dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDeleteConfirm"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sil"
+                app:backgroundTint="?attr/colorErrorContainer"
+                android:textColor="?attr/colorOnErrorContainer" />
         </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Dinamik renklerin uygulanması için uygulama yeniden başlatılır."
-            android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
-            android:alpha="0.7"/>
-
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
