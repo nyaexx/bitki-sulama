@@ -31,6 +31,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".AddDeviceActivity"
+            android:theme="@style/Theme.BitkiSulama" />
+
         <activity
             android:name="gndsalih.nyaexx.bitkisulama.MainActivity"
             android:theme="@style/Theme.BitkiSulama"

@@ -36,43 +36,47 @@ class MonitoringActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_monitoring)
+
+        // 1. Durum Çubuğu (StatusBar) Kontrast Ayarı
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val window = window
             val decorView = window.decorView
             val wic = androidx.core.view.WindowInsetsControllerCompat(window, decorView)
 
-            // Arka plan rengini kontrol et (Dinamik tema dahil)
             val typedValue = android.util.TypedValue()
             theme.resolveAttribute(com.google.android.material.R.attr.colorSurface, typedValue, true)
             val colorSurface = typedValue.data
 
-            // Rengin aydınlık mı karanlık mı olduğunu hesapla
             val isLightBackground = androidx.core.graphics.ColorUtils.calculateLuminance(colorSurface) > 0.5
-
-            // Eğer arka plan aydınlıksa (beyazsa) ikonları siyah yap, karanlıksa beyaz yap
             wic.isAppearanceLightStatusBars = isLightBackground
         }
 
+        // 2. Toolbar Ayarları
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(true) // Başlığı aktif et
-        supportActionBar?.title = "Yönetim Paneli" // Yazıyı kodla ata
+        supportActionBar?.setDisplayShowTitleEnabled(true)
 
+        // Intent'ten cihaz ismini al, eğer boşsa varsayılan başlığı kullan
+        val customDeviceName = intent.getStringExtra("device_name")
+        supportActionBar?.title = customDeviceName ?: "Yönetim Paneli"
 
         toolbar.setNavigationOnClickListener {
             disconnectAndGoBack()
         }
 
+        // 3. UI Elemanlarını Bağlama
         temperatureTextView = findViewById(R.id.temperatureTextView)
         humidityTextView = findViewById(R.id.humidityTextView)
         soilMoistureTextView = findViewById(R.id.soilMoistureTextView)
         manualWateringButton = findViewById(R.id.manualWateringButton)
         disconnectButton = findViewById(R.id.disconnectButton)
 
+        // Başlangıç Değerleri
         temperatureTextView.text = "Sıcaklık: --°C"
         humidityTextView.text = "Nem: --%"
         soilMoistureTextView.text = "Toprak Nemi: --"
 
+        // 4. Dinleyiciler
         manualWateringButton.setOnClickListener {
             sendWateringCommand()
         }
@@ -81,10 +85,16 @@ class MonitoringActivity : AppCompatActivity() {
             disconnectAndGoBack()
         }
 
+        // 5. Bluetooth Bağlantısını Başlatma
         val deviceAddress = intent.getStringExtra("device_address")
         if (deviceAddress != null) {
-            val device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(deviceAddress)
-            connectToDevice(device)
+            try {
+                val device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(deviceAddress)
+                connectToDevice(device)
+            } catch (e: Exception) {
+                Toast.makeText(this, "Geçersiz cihaz adresi", Toast.LENGTH_SHORT).show()
+                finish()
+            }
         } else {
             Toast.makeText(this, "Cihaz adresi alınamadı", Toast.LENGTH_SHORT).show()
             finish()

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:fitsSystemWindows="true"
     android:background="?attr/colorSurface">
 
@@ -22,7 +21,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/activity_main_header"
+                android:text="Cihazlarım"
                 android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
                 android:textStyle="bold"
                 android:textColor="?attr/colorOnSurface" />
@@ -40,78 +39,88 @@
                     android:layout_height="40dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/round_info"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="8dp"
                     app:tint="?attr/colorOnSurface" />
 
                 <ImageButton
-                    android:id="@+id/share_button"
+                    android:id="@+id/settings_button"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="16dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_share"
+                    android:src="@drawable/ic_settings"
                     app:tint="?attr/colorOnSurface" />
             </LinearLayout>
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="?attr/colorSurfaceVariant"
-            style="?attr/materialCardViewFilledStyle">
-
-            <ListView
-                android:id="@+id/deviceListView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="0dp"
-                android:listSelector="@android:color/transparent"
-                android:padding="8dp"
-                android:clipToPadding="false" />
-        </com.google.android.material.card.MaterialCardView>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
+            android:id="@+id/emptyLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="32dp"
+            android:visibility="gone">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/connectButton"
-                android:layout_width="0dp"
-                android:layout_height="64dp"
-                android:layout_weight="1"
-                android:layout_marginEnd="8dp"
-                android:text="@string/search_device"
-                android:textStyle="bold"
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:alpha="0.3"
+                android:src="@drawable/outline_bluetooth_24"
+                app:tint="?attr/colorOnSurface" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Kayıtlı cihaz bulunamadı"
                 android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-                app:cornerRadius="16dp" />
+                android:textStyle="bold"
+                android:alpha="0.8"/>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/settingsButton"
-                style="@style/Widget.Material3.Button.ElevatedButton"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:padding="0dp"
-                android:visibility="gone"
-                app:icon="@drawable/ic_settings"
-                app:backgroundTint="?attr/colorSurfaceVariant"
-                app:iconSize="28dp"
-                app:iconPadding="0dp"
-                app:iconGravity="textStart"
-                app:cornerRadius="16dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Yeni cihaz eklemek için sağ alttaki + butonuna tıklayınız."
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                android:alpha="0.6" />
         </LinearLayout>
-    </LinearLayout>
-</LinearLayout>
+
+        <ListView
+            android:id="@+id/deviceListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@android:color/transparent"
+            android:listSelector="@android:color/transparent"
+            android:dividerHeight="5dp"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="80dp"
+            android:clipToPadding="false"
+            android:scrollbarStyle="outsideOverlay" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="24dp"
+            android:contentDescription="Cihaz Ekle"
+            android:src="@drawable/ic_splash_logo"
+            app:backgroundTint="?attr/colorPrimary"
+            app:tint="?attr/colorOnPrimary"
+            app:elevation="6dp" />
+
+    </RelativeLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
