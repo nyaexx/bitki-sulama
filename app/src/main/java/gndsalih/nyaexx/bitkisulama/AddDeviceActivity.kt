@@ -26,17 +26,18 @@ class AddDeviceActivity : AppCompatActivity() {
 
     private lateinit var searchBar: EditText
     private lateinit var deviceListView: ListView
+    private lateinit var scanButton: Button
     private val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
     private val fullDeviceList = mutableListOf<BluetoothDevice>()
     private var filteredList = mutableListOf<BluetoothDevice>()
 
-    // 1. Bluetooth durum değişikliklerini dinleyen alıcı (Senin mekanizman)
+    // 1. Bluetooth durum değişikliklerini dinleyen alıcı
     private val bluetoothStateReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action == BluetoothAdapter.ACTION_STATE_CHANGED) {
                 val state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR)
                 if (state == BluetoothAdapter.STATE_ON) {
-                    setupBluetooth()
+                    loadPairedDevices()
                 } else if (state == BluetoothAdapter.STATE_OFF) {
                     clearDeviceList()
                 }
@@ -44,35 +45,39 @@ class AddDeviceActivity : AppCompatActivity() {
         }
     }
 
-    // 2. İzin isteme mekanizması (Senin mekanizman)
+    // 2. İzin isteme mekanizması
     private val bluetoothPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-            val allGranted = permissions.all { it.value }
-            if (allGranted) {
+            if (permissions.all { it.value }) {
                 setupBluetooth()
             } else {
-                Toast.makeText(this, "Bluetooth ve Konum izinleri gerekli.", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Bluetooth izinleri reddedildi.", Toast.LENGTH_LONG).show()
             }
         }
+
+    // 3. Bluetooth'u Açma İsteği Launcher'ı (BU EKSİKTİ)
+    private val enableBtLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (bluetoothAdapter?.isEnabled == true) {
+            loadPairedDevices()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_device)
 
-        // Toolbar ayarları
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false) // Başlığın göründüğünden emin ol
+        supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener { finish() }
 
         searchBar = findViewById(R.id.searchBar)
         deviceListView = findViewById(R.id.deviceListView)
+        scanButton = findViewById(R.id.scanButton)
 
-        // Bluetooth dinleyici kaydı
         registerReceiver(bluetoothStateReceiver, IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED))
 
-        // Arama/Filtreleme dinleyicisi
         searchBar.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) { filter(s.toString()) }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -83,7 +88,12 @@ class AddDeviceActivity : AppCompatActivity() {
             showNameDialog(filteredList[position])
         }
 
-        // SAYFA AÇILDIĞINDA OTOMATİK BAŞLAT (Senin istediğin can alıcı nokta)
+        // BUTON TIKLAMASI
+        scanButton.setOnClickListener {
+            checkBluetoothPermissionsAndLoadDevices()
+        }
+
+        // Otomatik Başlat
         checkBluetoothPermissionsAndLoadDevices()
     }
 
@@ -105,14 +115,6 @@ class AddDeviceActivity : AppCompatActivity() {
         }
     }
 
-    private fun hasBluetoothConnectPermission(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED
-        } else {
-            true
-        }
-    }
-
     private fun setupBluetooth() {
         val adapter = bluetoothAdapter
         if (adapter == null) {
@@ -120,22 +122,18 @@ class AddDeviceActivity : AppCompatActivity() {
             return
         }
 
-        if (!hasBluetoothConnectPermission()) {
-            checkBluetoothPermissionsAndLoadDevices()
-            return
-        }
-
         if (!adapter.isEnabled) {
+            // BURASI DEĞİŞTİ: Artık launcher ile güvenli bir şekilde soruyor
             val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-            startActivity(enableBtIntent)
-            return
+            enableBtLauncher.launch(enableBtIntent)
+        } else {
+            loadPairedDevices()
         }
-
-        loadPairedDevices()
     }
 
     private fun loadPairedDevices() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            checkBluetoothPermissionsAndLoadDevices()
             return
         }
 
@@ -143,7 +141,6 @@ class AddDeviceActivity : AppCompatActivity() {
         fullDeviceList.clear()
         pairedDevices?.let { fullDeviceList.addAll(it) }
 
-        // Filtreyi temizle ve listeyi güncelle
         filter(searchBar.text.toString())
     }
 
@@ -166,8 +163,8 @@ class AddDeviceActivity : AppCompatActivity() {
                 val view = layoutInflater.inflate(R.layout.device_item, parent, false)
                 val deviceNameTxt = view.findViewById<TextView>(R.id.deviceName)
                 val deviceAddressTxt = view.findViewById<TextView>(R.id.deviceAddress)
-
                 val icon = view.findViewById<ImageView>(R.id.deviceIcon)
+
                 icon.setImageResource(R.drawable.outline_bluetooth_24)
 
                 val device = getItem(position)
@@ -184,10 +181,6 @@ class AddDeviceActivity : AppCompatActivity() {
     }
 
     private fun showNameDialog(device: BluetoothDevice) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            return
-        }
-
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.dialog_device_name)
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
@@ -196,17 +189,18 @@ class AddDeviceActivity : AppCompatActivity() {
         val btnAdd = dialog.findViewById<Button>(R.id.btnAdd)
         val btnCancel = dialog.findViewById<Button>(R.id.btnCancel)
 
-        input.setText(device.name ?: "Cihazım")
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED || Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+            input.setText(device.name ?: "Cihazım")
+        }
 
         btnAdd.setOnClickListener {
-            val customName = if (input.text.toString().isEmpty()) (device.name ?: "Cihazım") else input.text.toString()
-            saveDevice(customName, device.address, device.name ?: "Bilinmeyen")
+            val customName = if (input.text.toString().isEmpty()) (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) "Cihazım" else device.name ?: "Cihazım") else input.text.toString()
+            saveDevice(customName, device.address, if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) "Bilinmeyen" else device.name ?: "Bilinmeyen")
             dialog.dismiss()
             finish()
         }
 
         btnCancel.setOnClickListener { dialog.dismiss() }
-
         dialog.show()
     }
 
@@ -214,7 +208,6 @@ class AddDeviceActivity : AppCompatActivity() {
         val sharedPref = getSharedPreferences("saved_devices_pref", Context.MODE_PRIVATE)
         val json = sharedPref.getString("devices_list", null)
 
-        // TypeToken hatasını engellemek için Array kullanıp List'e çeviriyoruz
         val list: MutableList<SavedDevice> = if (json == null) {
             mutableListOf()
         } else {
@@ -230,7 +223,6 @@ class AddDeviceActivity : AppCompatActivity() {
         list.add(SavedDevice(customName, address, originalName))
 
         sharedPref.edit().putString("devices_list", Gson().toJson(list)).apply()
-        Toast.makeText(this, "$customName eklendi!", Toast.LENGTH_SHORT).show()
     }
 
     private fun clearDeviceList() {

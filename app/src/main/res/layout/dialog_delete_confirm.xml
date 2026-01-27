@@ -42,8 +42,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sil"
-                app:backgroundTint="?attr/colorErrorContainer"
-                android:textColor="?attr/colorOnErrorContainer" />
+                app:backgroundTint="?attr/colorError"
+                android:textColor="?attr/colorOnSurface" />
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
