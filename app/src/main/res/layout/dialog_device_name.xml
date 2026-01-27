@@ -24,7 +24,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bu cihaza uygulamada görünecek bir isim verin. Boş bırakırsanız varsayılan isim kullanılır."
+            android:text="Bu cihaza uygulamada görünecek bir isim verin."
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
             android:alpha="0.7"
             android:layout_marginBottom="20dp"/>

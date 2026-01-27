@@ -169,6 +169,9 @@ class AddDeviceActivity : AppCompatActivity() {
                 val deviceNameTxt = view.findViewById<TextView>(R.id.deviceName)
                 val deviceAddressTxt = view.findViewById<TextView>(R.id.deviceAddress)
 
+                val icon = view.findViewById<ImageView>(R.id.deviceIcon)
+                icon.setImageResource(R.drawable.outline_bluetooth_24)
+
                 val device = getItem(position)
                 if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED || Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
                     deviceNameTxt.text = device?.name ?: "Bilinmeyen Cihaz"

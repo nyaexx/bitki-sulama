@@ -44,7 +44,13 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:hint="Cihaz ismi veya MAC adresi ara"
-            app:startIconDrawable="@android:drawable/ic_menu_search"
+
+            app:startIconDrawable="@drawable/ic_search"
+
+            app:boxStrokeColor="@color/search_bar_colors"
+            app:hintTextColor="@color/search_bar_colors"
+            app:startIconTint="@color/search_bar_colors"
+
             app:boxCornerRadiusBottomEnd="28dp"
             app:boxCornerRadiusBottomStart="28dp"
             app:boxCornerRadiusTopEnd="28dp"
@@ -54,9 +60,12 @@
                 android:id="@+id/searchBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:inputType="text"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:gravity="center_vertical" />
 
+        </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="0dp"
