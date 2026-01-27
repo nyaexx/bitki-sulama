@@ -31,7 +31,6 @@ class AddDeviceActivity : AppCompatActivity() {
     private val fullDeviceList = mutableListOf<BluetoothDevice>()
     private var filteredList = mutableListOf<BluetoothDevice>()
 
-    // 1. Bluetooth durum değişikliklerini dinleyen alıcı
     private val bluetoothStateReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action == BluetoothAdapter.ACTION_STATE_CHANGED) {
@@ -45,7 +44,6 @@ class AddDeviceActivity : AppCompatActivity() {
         }
     }
 
-    // 2. İzin isteme mekanizması
     private val bluetoothPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
             if (permissions.all { it.value }) {
@@ -55,7 +53,6 @@ class AddDeviceActivity : AppCompatActivity() {
             }
         }
 
-    // 3. Bluetooth'u Açma İsteği Launcher'ı (BU EKSİKTİ)
     private val enableBtLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (bluetoothAdapter?.isEnabled == true) {
             loadPairedDevices()
@@ -123,7 +120,6 @@ class AddDeviceActivity : AppCompatActivity() {
         }
 
         if (!adapter.isEnabled) {
-            // BURASI DEĞİŞTİ: Artık launcher ile güvenli bir şekilde soruyor
             val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
             enableBtLauncher.launch(enableBtIntent)
         } else {

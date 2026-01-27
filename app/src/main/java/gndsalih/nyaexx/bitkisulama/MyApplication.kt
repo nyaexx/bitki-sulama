@@ -12,7 +12,6 @@ class MyApplication : Application() {
         val sharedPref = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
         val isDynamicEnabled = sharedPref.getBoolean("dynamic_colors", true)
 
-        // Eğer Android 12+ ise VE kullanıcı ayarı kapatmadıysa uygula
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && isDynamicEnabled) {
             DynamicColors.applyToActivitiesIfAvailable(this)
         }
