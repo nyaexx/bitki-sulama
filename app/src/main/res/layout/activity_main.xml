@@ -116,7 +116,7 @@
             android:layout_alignParentBottom="true"
             android:layout_margin="24dp"
             android:contentDescription="Cihaz Ekle"
-            android:src="@drawable/ic_splash_logo"
+            android:src="@drawable/ic_plus"
             app:backgroundTint="?attr/colorPrimary"
             app:tint="?attr/colorOnPrimary"
             app:elevation="6dp" />
