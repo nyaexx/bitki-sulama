@@ -1,6 +1,6 @@
 # Akıllı Bitki Sulama
 <p align="center">
-  <img src="https://github.com/nyaexx/bitki-sulama/blob/main/.github/bitkisulamalogo.png" width="150px">
+  <img src="https://github.com/nyaexx/bitki-sulama/blob/main/.github/biktisulamayenilogo.png" width="150px">
 </p>
 
 
