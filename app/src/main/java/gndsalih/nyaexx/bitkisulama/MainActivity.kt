@@ -33,16 +33,12 @@ class MainActivity : AppCompatActivity() {
 
     private var pendingDeviceAddress: String? = null
     private var pendingDeviceName: String? = null
-
-    private val GITHUB_URL = "https://github.com/nyaexx/bitki-sulama"
-
-    // Bluetooth İzin Launcher'ı
     private val bluetoothPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
             if (permissions.all { it.value }) {
                 checkBluetoothAndProceed()
             } else {
-                Toast.makeText(this, "Bluetooth izinleri reddedildi.", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.bluetooth_permissions_denied), Toast.LENGTH_LONG).show()
             }
         }
 
@@ -51,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         if (bluetoothAdapter?.isEnabled == true) {
             proceedToMonitoring()
         } else {
-            Toast.makeText(this, "Bağlantı için Bluetooth açık olmalı.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.bluetooth_required_for_connection), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -210,7 +206,7 @@ class MainActivity : AppCompatActivity() {
 
         val input = dialog.findViewById<EditText>(R.id.deviceNameInput)
         val btnSave = dialog.findViewById<Button>(R.id.btnAdd)
-        btnSave.text = "Güncelle"
+        btnSave.text = getString(R.string.update)
         input.setText(device.name)
 
         btnSave.setOnClickListener {
@@ -222,7 +218,7 @@ class MainActivity : AppCompatActivity() {
                     .edit().putString("devices_list", json).apply()
                 loadSavedDevices()
                 dialog.dismiss()
-                Toast.makeText(this, "İsim güncellendi", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.device_renamed), Toast.LENGTH_SHORT).show()
             }
         }
         dialog.findViewById<Button>(R.id.btnCancel)?.setOnClickListener { dialog.dismiss() }
@@ -236,8 +232,7 @@ class MainActivity : AppCompatActivity() {
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         val title = dialog.findViewById<TextView>(R.id.deleteTitle)
-        title.text = "${device.name} cihazını silmek istediğinize emin misiniz?"
-
+        title.text = getString(R.string.delete_confirm_title, device.name)
         dialog.findViewById<Button>(R.id.btnDeleteConfirm).setOnClickListener {
             deleteDevice(device)
             dialog.dismiss()
@@ -252,8 +247,7 @@ class MainActivity : AppCompatActivity() {
         getSharedPreferences("saved_devices_pref", Context.MODE_PRIVATE)
             .edit().putString("devices_list", json).apply()
         loadSavedDevices()
-        Toast.makeText(this, "Cihaz silindi", Toast.LENGTH_SHORT).show()
-    }
+        Toast.makeText(this, getString(R.string.device_deleted), Toast.LENGTH_SHORT).show()    }
 
     private fun setupStatusBarContrast() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -304,9 +298,9 @@ class MainActivity : AppCompatActivity() {
             }
         } catch (e: Exception) { "1.0.0" }
 
-        versionText.text = "Versiyon: $versionName"
+        versionText.text = getString(R.string.app_version, versionName)
         dialog.findViewById<View>(R.id.github_link).setOnClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_URL)))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.github_link))))
         }
         dialog.show()
     }

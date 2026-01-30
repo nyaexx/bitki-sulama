@@ -154,7 +154,7 @@ class MonitoringActivity : AppCompatActivity() {
                     Log.e(TAG, "İlk bağlantı denemesi başarısız: ${connectException.message}")
                     bluetoothSocket?.close()
                     handler.post {
-                        Toast.makeText(this, "Cihaza bağlanılamadı: Cihaz kapalı veya kapsama alanı dışında", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, getString(R.string.cannot_connect_to_device), Toast.LENGTH_LONG).show()
                         finish()
                     }
                     return@Thread
