@@ -85,12 +85,10 @@ class AddDeviceActivity : AppCompatActivity() {
             showNameDialog(filteredList[position])
         }
 
-        // BUTON TIKLAMASI
         scanButton.setOnClickListener {
             checkBluetoothPermissionsAndLoadDevices()
         }
 
-        // Otomatik Başlat
         checkBluetoothPermissionsAndLoadDevices()
     }
 
