@@ -115,7 +115,6 @@ class AddDeviceActivity : AppCompatActivity() {
     private fun setupBluetooth() {
         val adapter = bluetoothAdapter
         if (adapter == null) {
-            Toast.makeText(this, getString(R.string.bluetooth_not_supported), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -146,7 +145,6 @@ class AddDeviceActivity : AppCompatActivity() {
         }
 
         filteredList = fullDeviceList.filter {
-            val name = it.name ?: getString(R.string.unknown_device)
             val address = it.address ?: ""
             name.contains(text, ignoreCase = true) || address.contains(text, ignoreCase = true)
         }.toMutableList()
@@ -165,9 +163,7 @@ class AddDeviceActivity : AppCompatActivity() {
 
                 val device = getItem(position)
                 if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED || Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
-                    deviceNameTxt.text = device?.name ?: getString(R.string.unknown_device)
                 } else {
-                    deviceNameTxt.text = getString(R.string.permission_required)
                 }
                 deviceAddressTxt.text = device?.address
                 return view
@@ -190,10 +186,7 @@ class AddDeviceActivity : AppCompatActivity() {
         }
 
         btnAdd.setOnClickListener {
-            val customName = input.text.toString().ifEmpty { (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) "Cihazım" else device.name ?: "Cihazım") }
-
             saveDevice(customName, device.address, if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) "Bilinmeyen" else device.name ?: "Bilinmeyen")
-
             dialog.dismiss()
         }
 
@@ -216,20 +209,9 @@ class AddDeviceActivity : AppCompatActivity() {
             }
         }
 
-        val isAlreadyAdded = list.any { it.address == address }
-
-        if (isAlreadyAdded) {
-            Toast.makeText(this, getString(R.string.device_already_added), Toast.LENGTH_SHORT).show()
-            return
-        }
-
         list.add(SavedDevice(customName, address, originalName))
 
         sharedPref.edit().putString("devices_list", Gson().toJson(list)).apply()
-
-        Toast.makeText(this, getString(R.string.device_added) , Toast.LENGTH_SHORT).show()
-
-        finish()
     }
 
     private fun clearDeviceList() {

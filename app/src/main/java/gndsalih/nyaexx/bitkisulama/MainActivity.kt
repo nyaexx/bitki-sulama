@@ -3,6 +3,7 @@ package gndsalih.nyaexx.bitkisulama
 import android.Manifest
 import android.app.Dialog
 import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -12,47 +13,41 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.View
-import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.materialswitch.MaterialSwitch
-import com.google.gson.Gson
+import gndsalih.nyaexx.bitkisulama.MonitoringActivity
+import gndsalih.nyaexx.bitkisulama.R
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var bluetoothAdapter: BluetoothAdapter
     private lateinit var deviceListView: ListView
-    private lateinit var emptyLayout: LinearLayout
-    private val savedDevices = mutableListOf<SavedDevice>()
-    private val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
+    private lateinit var connectButton: Button
+    private lateinit var settingsButton: Button
+    private val deviceList = mutableListOf<String>()
+    private val bluetoothDevices = mutableListOf<BluetoothDevice>()
+    private lateinit var adapter: ArrayAdapter<String>
 
-    private var pendingDeviceAddress: String? = null
-    private var pendingDeviceName: String? = null
+    private val GITHUB_URL = "https://github.com/nyaexx/bitki-sulama"
+
     private val bluetoothPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-            if (permissions.all { it.value }) {
-                checkBluetoothAndProceed()
+            val granted = permissions.all { it.value }
+            if (granted) {
+                setupBluetooth()
             } else {
-                Toast.makeText(this, getString(R.string.bluetooth_permissions_denied), Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Bluetooth ve konum izinleri gerekli", Toast.LENGTH_SHORT).show()
             }
         }
 
-    // Bluetooth Açma Launcher'ı
-    private val enableBtLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (bluetoothAdapter?.isEnabled == true) {
-            proceedToMonitoring()
-        } else {
-            Toast.makeText(this, getString(R.string.bluetooth_required_for_connection), Toast.LENGTH_SHORT).show()
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Geçiş Animasyonları
+        // 1. Önce Animasyon (Varsa) ve Tema Hazırlıkları
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, android.R.anim.fade_in, android.R.anim.fade_out)
         } else {
@@ -61,201 +56,76 @@ class MainActivity : AppCompatActivity() {
         }
 
         super.onCreate(savedInstanceState)
+
+        // 2. MUTLAKA ÖNCE LAYOUT'U SET ET
         setContentView(R.layout.activity_main)
 
-        // UI Init
+        // 3. UI ELEMANLARINI BAĞLA (Init)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        // Lateinit özelliklerini burada başlatıyoruz
         deviceListView = findViewById(R.id.deviceListView)
-        emptyLayout = findViewById(R.id.emptyLayout)
-        val fabAdd = findViewById<FloatingActionButton>(R.id.fabAdd)
+        connectButton = findViewById(R.id.connectButton)
+        settingsButton = findViewById(R.id.settingsButton)
 
+        // 4. GÖRÜNÜM AYARLARI
         setupStatusBarContrast()
 
-        findViewById<ImageButton>(R.id.github_button).setOnClickListener { showAboutDialog() }
-        findViewById<ImageButton>(R.id.settings_button).setOnClickListener { showSettingsDialog() }
-
-        fabAdd.setOnClickListener {
-            startActivity(Intent(this, AddDeviceActivity::class.java))
-        }
-
-        deviceListView.setOnItemClickListener { _, _, position, _ ->
-            val device = savedDevices[position]
-            pendingDeviceAddress = device.address
-            pendingDeviceName = device.name
-            checkBluetoothAndProceed()
-        }
-
-        deviceListView.setOnItemLongClickListener { _, _, position, _ ->
-            val device = savedDevices[position]
-            showOptionsDialog(device, position)
-            true
-        }
-
-        loadSavedDevices()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        loadSavedDevices()
-    }
-
-    private fun checkBluetoothAndProceed() {
-        val permissions = mutableListOf<String>()
+        // Android 12+ ise Ayarlar Butonunu Göster
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            permissions.add(Manifest.permission.BLUETOOTH_CONNECT)
-        } else {
-            permissions.add(Manifest.permission.ACCESS_FINE_LOCATION)
+            settingsButton.visibility = android.view.View.VISIBLE
+            settingsButton.setOnClickListener { showSettingsDialog() }
         }
 
-        val needed = permissions.filter { ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED }
+        // 5. CLICK LISTENER'LAR
+        findViewById<ImageButton>(R.id.github_button).setOnClickListener { showAboutDialog() }
+        findViewById<ImageButton>(R.id.share_button).setOnClickListener { shareApp() }
 
-        if (needed.isNotEmpty()) {
-            bluetoothPermissionLauncher.launch(needed.toTypedArray())
-        } else {
-            if (bluetoothAdapter?.isEnabled == false) {
-                enableBtLauncher.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
+        // 6. BLUETOOTH İŞLEMLERİ
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+
+        connectButton.setOnClickListener {
+            if (bluetoothAdapter == null) {
+                Toast.makeText(this, "Bluetooth desteklenmiyor", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (!bluetoothAdapter.isEnabled) {
+                val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+                startActivity(enableBtIntent)
             } else {
-                proceedToMonitoring()
+                checkBluetoothPermissionsAndLoadDevices()
             }
         }
-    }
 
-    private fun proceedToMonitoring() {
-        if (pendingDeviceAddress != null) {
-            val intent = Intent(this, MonitoringActivity::class.java).apply {
-                putExtra("device_address", pendingDeviceAddress)
-                putExtra("device_name", pendingDeviceName)
-            }
-            startActivity(intent)
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-            pendingDeviceAddress = null
-            pendingDeviceName = null
-        }
-    }
-
-    private fun loadSavedDevices() {
-        val sharedPref = getSharedPreferences("saved_devices_pref", Context.MODE_PRIVATE)
-        val json = sharedPref.getString("devices_list", null)
-
-        savedDevices.clear()
-        if (json != null) {
+        // Cihaz Seçimi ve Geçiş
+        deviceListView.setOnItemClickListener { _, _, position, _ ->
+            val device = bluetoothDevices[position]
             try {
-                val array = Gson().fromJson(json, Array<SavedDevice>::class.java)
-                savedDevices.addAll(array)
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
+                    val intent = Intent(this, MonitoringActivity::class.java)
+                    intent.putExtra("device_address", device.address)
+                    startActivity(intent)
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                } else {
+                    Toast.makeText(this, "Bluetooth izinleri eksik", Toast.LENGTH_SHORT).show()
+                }
             } catch (e: Exception) {
-                Log.e("MainActivity", "Veri okuma hatası: ${e.message}")
+                Log.e("MainActivity", "Hata: ${e.message}")
             }
         }
-
-        if (savedDevices.isEmpty()) {
-            emptyLayout.visibility = View.VISIBLE
-            deviceListView.visibility = View.GONE
-        } else {
-            emptyLayout.visibility = View.GONE
-            deviceListView.visibility = View.VISIBLE
-            setupAdapter()
-        }
     }
-
-    private fun setupAdapter() {
-        val adapter = object : ArrayAdapter<SavedDevice>(this, R.layout.device_item, savedDevices) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = layoutInflater.inflate(R.layout.device_item, parent, false)
-                val nameText = view.findViewById<TextView>(R.id.deviceName)
-                val addressText = view.findViewById<TextView>(R.id.deviceAddress)
-                val icon = view.findViewById<ImageView>(R.id.deviceIcon)
-
-                val device = getItem(position)
-                nameText.text = device?.name
-                addressText.text = device?.address
-                icon.setImageResource(R.drawable.ic_leaf)
-
-                return view
-            }
-        }
-        deviceListView.adapter = adapter
-    }
-
-    private fun showOptionsDialog(device: SavedDevice, position: Int) {
-        val dialog = Dialog(this)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.dialog_device_options)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-
-        dialog.findViewById<View>(R.id.btnRenameOption).setOnClickListener {
-            dialog.dismiss()
-            showRenameDialog(device, position)
-        }
-
-        dialog.findViewById<View>(R.id.btnDeleteOption).setOnClickListener {
-            dialog.dismiss()
-            showDeleteConfirmDialog(device)
-        }
-
-        dialog.show()
-    }
-
-    private fun showRenameDialog(device: SavedDevice, position: Int) {
-        val dialog = Dialog(this)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.dialog_device_name)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-
-        val input = dialog.findViewById<EditText>(R.id.deviceNameInput)
-        val btnSave = dialog.findViewById<Button>(R.id.btnAdd)
-        btnSave.text = getString(R.string.update)
-        input.setText(device.name)
-
-        btnSave.setOnClickListener {
-            val newName = input.text.toString()
-            if (newName.isNotEmpty()) {
-                savedDevices[position] = device.copy(name = newName)
-                val json = Gson().toJson(savedDevices)
-                getSharedPreferences("saved_devices_pref", Context.MODE_PRIVATE)
-                    .edit().putString("devices_list", json).apply()
-                loadSavedDevices()
-                dialog.dismiss()
-                Toast.makeText(this, getString(R.string.device_renamed), Toast.LENGTH_SHORT).show()
-            }
-        }
-        dialog.findViewById<Button>(R.id.btnCancel)?.setOnClickListener { dialog.dismiss() }
-        dialog.show()
-    }
-
-    private fun showDeleteConfirmDialog(device: SavedDevice) {
-        val dialog = Dialog(this)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.dialog_delete_confirm)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-
-        val title = dialog.findViewById<TextView>(R.id.deleteTitle)
-        title.text = getString(R.string.delete_confirm_title, device.name)
-        dialog.findViewById<Button>(R.id.btnDeleteConfirm).setOnClickListener {
-            deleteDevice(device)
-            dialog.dismiss()
-        }
-        dialog.findViewById<Button>(R.id.btnDeleteCancel).setOnClickListener { dialog.dismiss() }
-        dialog.show()
-    }
-
-    private fun deleteDevice(device: SavedDevice) {
-        savedDevices.remove(device)
-        val json = Gson().toJson(savedDevices)
-        getSharedPreferences("saved_devices_pref", Context.MODE_PRIVATE)
-            .edit().putString("devices_list", json).apply()
-        loadSavedDevices()
-        Toast.makeText(this, getString(R.string.device_deleted), Toast.LENGTH_SHORT).show()    }
 
     private fun setupStatusBarContrast() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val window = window
             val wic = androidx.core.view.WindowInsetsControllerCompat(window, window.decorView)
             val typedValue = android.util.TypedValue()
             theme.resolveAttribute(com.google.android.material.R.attr.colorSurface, typedValue, true)
-            val isLight = androidx.core.graphics.ColorUtils.calculateLuminance(typedValue.data) > 0.5
-            wic.isAppearanceLightStatusBars = isLight
+            val isLightBackground = androidx.core.graphics.ColorUtils.calculateLuminance(typedValue.data) > 0.5
+            wic.isAppearanceLightStatusBars = isLightBackground
         }
     }
 
@@ -268,15 +138,22 @@ class MainActivity : AppCompatActivity() {
         val dynamicSwitch = dialog.findViewById<MaterialSwitch>(R.id.dynamicSwitch)
         val sharedPref = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
 
-        dynamicSwitch.isChecked = sharedPref.getBoolean("dynamic_colors", true)
+        val isDynamicEnabled = sharedPref.getBoolean("dynamic_colors", true)
+        dynamicSwitch.isChecked = isDynamicEnabled
 
         dynamicSwitch.setOnCheckedChangeListener { _, isChecked ->
             sharedPref.edit().putBoolean("dynamic_colors", isChecked).apply()
+
+            Toast.makeText(this, "Tema uygulanıyor...", Toast.LENGTH_SHORT).show()
+
             Handler(Looper.getMainLooper()).postDelayed({
+                // Uygulamayı tamamen kapat ve en baştan (Splash'ten) başlat
+                val packageManager = packageManager
                 val intent = packageManager.getLaunchIntentForPackage(packageName)
-                val mainIntent = Intent.makeRestartActivityTask(intent?.component)
+                val componentName = intent?.component
+                val mainIntent = Intent.makeRestartActivityTask(componentName)
                 startActivity(mainIntent)
-                Runtime.getRuntime().exit(0)
+                Runtime.getRuntime().exit(0) // Uygulama sürecini (process) tamamen bitir
             }, 600)
         }
         dialog.show()
@@ -289,19 +166,70 @@ class MainActivity : AppCompatActivity() {
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         val versionText = dialog.findViewById<TextView>(R.id.version_text)
-        val versionName = try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                packageManager.getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(0)).versionName
-            } else {
-                @Suppress("DEPRECATION")
-                packageManager.getPackageInfo(packageName, 0).versionName
-            }
-        } catch (e: Exception) { "1.0.0" }
 
-        versionText.text = getString(R.string.app_version, versionName)
-        dialog.findViewById<View>(R.id.github_link).setOnClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.github_link))))
+        // HATALI YER BURASIYDI: TextView yerine View veya LinearLayout yapıyoruz
+        val githubLink = dialog.findViewById<android.view.View>(R.id.github_link)
+
+        val versionName = try {
+            packageManager.getPackageInfo(packageName, 0).versionName
+        } catch (e: Exception) { "Bilinmiyor" }
+
+        versionText.text = "n$versionName"
+
+        githubLink.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_URL)))
+            dialog.dismiss()
         }
         dialog.show()
+    }
+
+    private fun shareApp() {
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
+            putExtra(Intent.EXTRA_TEXT, "Bitki Sulama uygulamamızı deneyin: $GITHUB_URL")
+        }
+        startActivity(Intent.createChooser(shareIntent, "Paylaş"))
+    }
+
+    private fun checkBluetoothPermissionsAndLoadDevices() {
+        val permissions = mutableListOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.BLUETOOTH)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            permissions.add(Manifest.permission.BLUETOOTH_CONNECT)
+            permissions.add(Manifest.permission.BLUETOOTH_SCAN)
+        }
+
+        val neededPermissions = permissions.filter {
+            ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
+        }
+
+        if (neededPermissions.isNotEmpty()) {
+            bluetoothPermissionLauncher.launch(neededPermissions.toTypedArray())
+        } else {
+            setupBluetooth()
+        }
+    }
+
+    private fun setupBluetooth() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED &&
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) return
+
+        val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter.bondedDevices
+        deviceList.clear()
+        bluetoothDevices.clear()
+
+        pairedDevices?.forEach { device ->
+            deviceList.add(device.name ?: "Bilinmeyen Cihaz")
+            bluetoothDevices.add(device)
+        }
+
+        val customAdapter = object : ArrayAdapter<String>(this, R.layout.device_item, R.id.deviceName, deviceList) {
+            override fun getView(position: Int, convertView: android.view.View?, parent: android.view.ViewGroup): android.view.View {
+                val view = super.getView(position, convertView, parent)
+                view.findViewById<TextView>(R.id.deviceAddress).text = bluetoothDevices[position].address
+                return view
+            }
+        }
+        deviceListView.adapter = customAdapter
     }
 }
