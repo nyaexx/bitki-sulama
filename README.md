@@ -4,8 +4,8 @@
 </p>
 <h1>Smart Irrigation</h1>
 <p>
-English |
-<a href="README-tr.md">Türkçe</a>
+🇬🇧 English |
+<a href="README-tr.md"> 🇹🇷 Türkçe</a>
 </p>
 <p>
 <a href="https://github.com/nyaexx/bitki-sulama/releases/latest"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/nyaexx/bitki-sulama?label=Smart%20Irrigation" /></a>
