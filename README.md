@@ -1,79 +1,99 @@
-# Akıllı Bitki Sulama
-<p align="center">
-  <img src="https://github.com/nyaexx/bitki-sulama/blob/main/.github/biktisulamayenilogo.png" width="150px">
+<div align="center">
+<p>
+<img src="https://github.com/nyaexx/bitki-sulama/blob/main/.github/biktisulamayenilogo.png" width="150px">
 </p>
+<h1>Smart Irrigation</h1>
+<p>
+English |
+<a href="README-tr.md">Türkçe</a>
+</p>
+<p>
+<a href="https://github.com/nyaexx/bitki-sulama/releases/latest"><img src="https://img.shields.io/github/v/release/nyaexx/bitki-sulama?display_name=tag&label=Smart%20Irrigation" alt="Latest Release" /></a>
+<a href="https://github.com/nyaexx/bitki-sulama/releases"><img src="https://img.shields.io/github/downloads/nyaexx/bitki-sulama/total?label=Downloads" alt="Downloads" /></a>
+<a href="https://github.com/nyaexx/bitki-sulama/commits/main/"><img alt="GitHub commits since latest release" src="https://img.shields.io/github/commits-since/nyaexx/bitki-sulama/latest?label=Commits%20Since%20Last%20Release" /></a>
+<a href="https://github.com/nyaexx/bitki-sulama/blob/master/LICENSE"><img src="https://img.shields.io/github/license/nyaexx/bitki-sulama?label=License" alt="License" /></a>
+</p>
+</div>
 
-
----
-Bu proje, belirli bir bitkinin toprak nemi ve hava değerlerini ölçerek bir Arduino devresiyle otomatik sulama işlemleri yapmayı sağlar. Ayrıca, verileri gözlemleyebileceğiniz ve sulama işlemini manuel yapabildiğiniz bluetooth aracılığıyla çalışan bir Android uygulaması da bulunmaktadır.
-
----
-### Android Uygulamasını İndirme:
-
-Uygulamanın Son Sürümünü buradan indirebilirsiniz:
-
-[![](https://img.shields.io/badge/Bitki%20Sulama-n1.7.2-blue)](https://github.com/nyaexx/bitki-sulama/releases/tag/n1.7.2) 
-
-- **Not:** Uygulama Android 7 ve üzeri için geliştirilmiştir.
-
-### Android Uygulamasının Genel Özellikleri:
-- Bluetooh ile cihazdan verilerin okunup ekrana yazılması.
-- Manuel olarak su motorunun kontrol edilmesi.
+This project enables automatic irrigation using an Arduino circuit by measuring the soil moisture and air values of a specific plant. Additionally, there is an Android application operating via Bluetooth where you can monitor data and perform manual irrigation.
 
 ---
 
-### Android Uygulamasını Geliştirme:
+### General Features of the Android Application:
 
-**Gereklilikler:**
+- Add multiple devices to the "My Devices" tab.
+- Delete and edit devices.
+- Connect to added devices from the "My Devices" page to access the management panel.
+- Read sensor data from your device via the management panel.
+- Manually trigger the water pump (motor) via the management panel.
+- Customize the application theme in the settings section.
 
-    Android Studio (Arctic Fox veya üzeri)
+---
 
+### Circuit Operation Features:
+
+- Workflow:
+
+  - Measurement: Sensors measure soil moisture, air temperature, and air humidity.
+  - Decision: When the soil is dry, the system detects this, lights up the red LED, and automatically activates the water pump (relay).
+      - It is recommended to adjust the nem_orani (moisture rate) threshold values within the [**void loop()**](https://github.com/nyaexx/bitki-sulama/blob/092b0fe9b20702ee34cc0e6b0391c396f2d98dd1/Arduino%20Kodlar%C4%B1/arduinokodlar%C4%B1.ino#L53) in the Arduino code according to the water requirements of your specific plant type.
+  - Information: Soil status (Dry, Normal, Wet) is displayed via LEDs, and all data is sent to the phone via Bluetooth.
+  - Remote Control: Manual irrigation can be started at any time with a single command through the app via Bluetooth connection.
+
+- Key Features:
+
+  - Fully Automatic Irrigation: Waters plants on its own when no one is around.
+  - Bluetooth Tracking: Provides real-time temperature and humidity monitoring via phone.
+  - Status Indicators: Instantly shows whether the soil needs water thanks to the LEDs.
+
+---
+
+### Android App Development:
+
+**Requirements:**
+
+    Android Studio (Arctic Fox or higher)
+    
     Kotlin
+    
+    Gradle (Comes with Android Studio)
+    
+    Min SDK: 24, Target SDK: 36 (Target SDK is 35 for Release n1.6 and earlier)
+    
+    Physical Android device (Required for Bluetooth features.)
 
-    Gradle (Android Studio ile birlikte gelir)
+**How to Run?**
 
-    Min SDK: 24, Target SDK: 36 (Release n1.6 ve öncesi için Target SDK: 35'dir)
+- Clone the Repository:
+   -  git clone [https://github.com/nyaexx/bitki-sulama/](https://github.com/nyaexx/bitki-sulama/)
+- Open with Android Studio.
 
-    Fiziksel Android cihaz (Bluetooth özelliklerinin kullanılması için gereklidir.)
-
-**Nasıl Çalıştırılır?**
-
-- Repo'yu klonla:
-
-  -  ``git clone https://github.com/nyaexx/bitki-sulama/``
-
-- Android Studio ile aç.
-
-- Gradle sync tamamlandıktan sonra build edip fiziksel cihazına yükle.
-
-- Uygulama yüklendiğinde önce Bluetooth ayarlarından cihazına bağlanıp daha sonra uygulamadan cihazı seçip yönetim sayfasına geçiş yapabilir ve sistemi kontrol edebilirsin. (Eğer cihaza bağlanırken sorun çıkarsa Ayarlar > Uygulamalar > Bitki Sulama > İzinler kısmından Bluetooth cihazlarına bağlanma ve konum izinlerini verdiğinizden emin olun.)
+- Once Gradle sync is complete, build and install it on your physical device.
+- After installation, first pair your device from the Android Bluetooth settings, then select the device within the app to proceed to the management page. (If you encounter connection issues, ensure that "Bluetooth nearby devices" and "Location" permissions are granted under Settings > Apps > Bitki Sulama > Permissions.)
 
 ---
 
-### Devre Kurulumu ve Kullanımı
-Kurulum için aşağıdaki bağlantı şemasına göre devreyi kurun:
+### Circuit Setup and Usage:
+
+Set up the circuit according to the connection diagram below:
+
 <p align="center">
-  <img src="https://github.com/nyaexx/bitki-sulama/blob/main/Arduino%20Kodlar%C4%B1/ba%C4%9Flanti%C5%9Femas%C4%B1.png" width="">
+<img src="https://github.com/nyaexx/bitki-sulama/blob/main/Arduino%20Kodlar%C4%B1/ba%C4%9Flanti%C5%9Femas%C4%B1.png" width="">
 </p>
 
-> [!NOTE]
-> Kullanım içinse [bu dizindeki](https://github.com/nyaexx/bitki-sulama/tree/main/Arduino%20Kodlar%C4%B1) Arduino kodlarını ve libraries klasöründeki kütüphaneleri cihazınıza yükleyip kullanabilirsiniz.
+>[!NOTE]
+>For usage, you can upload the Arduino codes and the libraries located in this directory to your device.
 >
-> Unutmayın eğer orjinal Arduino Uno kullanmıyorsanız kesinlikle [Arduino Kodları](https://github.com/nyaexx/bitki-sulama/tree/main/Arduino%20Kodlar%C4%B1) dinizindeki libraries klasöründe bulunan CH340 kütüphanesinin kurulumunu yapınız. Aksi takdirde kurulumunu yapmanıza gerek yoktur.
+>Remember, if you are not using an original Arduino Uno, you must install the CH340 driver found in the libraries folder within the Arduino Codes directory. Otherwise, installation is not necessary.
 
-> [!CAUTION]
-> ``Bluetooht Bağlantısı İçin Yapılması Gerekenler:``
-**İlk bağlantıda telefonun bluetooth bağlantı menüsü açılıp "HC-06" seçilip şifre 1234 girilmelidir.
-Uygulama içinden bağlantıda bağlantı sorunu yaşanırsa uno kart üzerinde bulunan kırmızı reset düğmesine basıldıktan hemen sonra eşleşme yapılmalıdır.
-Bluetooth modül üzerinde bulunan kırmızı led yanıp söndüğünde "cihaz aranıyor" sürekli yandığında "bağlantı sağlandı" manasına gelir.
-Eğer bluetooth bağlı gözükürken eşleşme yapılamazsa devrede elektriği kesin ışıklar sönene kadar bekleyin ve tekrar elektriği bağlayın sorun düzelecektir.**
+>[!IMPORTANT]
+>``Requirements for Bluetooth Connection:``
+>For the first connection, open the phone's Bluetooth menu, select "HC-06", and enter the password "1234".
+>If a connection problem occurs within the app, try pairing immediately after pressing the red reset button on the Uno board.
+>The red LED on the Bluetooth module indicates "searching for device" when flashing and "connection established" when solid.
+>If the device cannot be paired while Bluetooth appears connected, disconnect the power from the circuit, wait until the lights turn off, and reconnect the power; this should resolve the issue.
 
-
-
----
-
-> [!NOTE]
-> Yardım veya herhangi bir soru için discord: nyaex
-> 
-> Repoya bir şey eklemek ister veya bir hatayı düzeltmek isterseniz pull request atabilirsiniz.
-
+>[!NOTE]
+>For help or any questions, contact on Discord: nyaex
+>
+>If you would like to add something to the repo or fix a bug, feel free to submit a pull request.
