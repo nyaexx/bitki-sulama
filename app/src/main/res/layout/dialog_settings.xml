@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Uygulama Ayarları"
+            android:text="@string/device_settings"
             android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
             android:layout_marginBottom="16dp"/>
 
@@ -30,7 +30,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Material You Kullan"
+                android:text="@string/use_material_you"
                 android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
             <com.google.android.material.materialswitch.MaterialSwitch
@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Dinamik renklerin uygulanması için uygulama yeniden başlatılır."
+            android:text="@string/material_you_description"
             android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
             android:alpha="0.7"/>
 

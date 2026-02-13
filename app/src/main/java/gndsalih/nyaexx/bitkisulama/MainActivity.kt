@@ -205,6 +205,10 @@ class MainActivity : AppCompatActivity() {
 
         val input = dialog.findViewById<EditText>(R.id.deviceNameInput)
         val btnSave = dialog.findViewById<Button>(R.id.btnAdd)
+        val title = dialog.findViewById<TextView>(R.id.dialogTitle)
+        title.text = getString(R.string.rename_device)
+        val description = dialog.findViewById<TextView>(R.id.descriptionTextViewId)
+        description.text = getString(R.string.give_device_a_new_name)
         btnSave.text = getString(R.string.update)
 
         input.setText(device.name)

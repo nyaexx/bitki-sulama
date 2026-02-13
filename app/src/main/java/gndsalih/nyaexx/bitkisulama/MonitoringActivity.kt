@@ -55,8 +55,7 @@ class MonitoringActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(true)
 
         val customDeviceName = intent.getStringExtra("device_name")
-        supportActionBar?.title = customDeviceName ?: "Yönetim Paneli"
-
+        supportActionBar?.title = customDeviceName ?: getString(R.string.yonetim_paneli)
         toolbar.setNavigationOnClickListener {
             disconnectAndGoBack()
         }
@@ -67,9 +66,9 @@ class MonitoringActivity : AppCompatActivity() {
         manualWateringButton = findViewById(R.id.manualWateringButton)
         disconnectButton = findViewById(R.id.disconnectButton)
 
-        temperatureTextView.text = "Sıcaklık: --°C"
-        humidityTextView.text = "Nem: --%"
-        soilMoistureTextView.text = "Toprak Nemi: --"
+        temperatureTextView.text = getString(R.string.temperature)
+        humidityTextView.text = getString(R.string.humidity)
+        soilMoistureTextView.text = getString(R.string.soil_moisture)
 
         manualWateringButton.setOnClickListener {
             sendWateringCommand()
@@ -99,14 +98,17 @@ class MonitoringActivity : AppCompatActivity() {
             try {
                 val command = "WATER\n"
                 outputStream.write(command.toByteArray())
-                Toast.makeText(this, "Sulama komutu gönderildi", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.irrigation_command_sent),Toast.LENGTH_SHORT).show()
                 Log.d(TAG, "Sulama komutu gönderildi")
             } catch (e: Exception) {
-                Toast.makeText(this, "Komut gönderilemedi: ${e.message}", Toast.LENGTH_SHORT).show()
+                val errorMessage = e.message ?: "Unknown error"
+                Toast.makeText(
+                    this, getString(R.string.error_command_failed, errorMessage), Toast.LENGTH_SHORT
+                ).show()
                 Log.e(TAG, "Komut gönderme hatası: ${e.message}")
             }
         } else {
-            Toast.makeText(this, "Bluetooth bağlantısı yok", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.no_bluetooth_connection), Toast.LENGTH_LONG).show()
         }
     }
 
@@ -132,7 +134,7 @@ class MonitoringActivity : AppCompatActivity() {
             try {
                 if (device.bondState != BluetoothDevice.BOND_BONDED) {
                     handler.post {
-                        Toast.makeText(this, "Cihaz aktif değil veya eşleşme yapılmamış", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getString(R.string.error_device_inactive), Toast.LENGTH_SHORT).show()
                         finish()
                     }
                     return@Thread
@@ -156,14 +158,23 @@ class MonitoringActivity : AppCompatActivity() {
                 if (bluetoothSocket?.isConnected == true) {
                     inputStream = bluetoothSocket?.inputStream!!
                     outputStream = bluetoothSocket?.outputStream!!
+                    val deviceName = device.name ?: getString(R.string.unknown_device)
 
                     handler.post {
-                        Toast.makeText(this, "${device.name ?: "Bilinmeyen Cihaz"} bağlantı başarılı!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this,
+                            getString(R.string.connection_success, deviceName),
+                            Toast.LENGTH_SHORT
+                        ).show()
                         startReadingData()
                     }
                 } else {
                     handler.post {
-                        Toast.makeText(this, "Bağlantı kurulamadı: Cihaz yanıt vermiyor", Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            this,
+                            getString(R.string.error_connection_no_response),
+                            Toast.LENGTH_LONG
+                        ).show()
                         finish()
                     }
                 }
@@ -239,13 +250,13 @@ class MonitoringActivity : AppCompatActivity() {
                     val temperatureLine = data.substring(startIndex, endIndex)
                     val temp = temperatureLine.substringAfter("Sıcaklık:").trim().replace("°C", "").trim()
                     handler.post {
-                        temperatureTextView.text = "Sıcaklık: $temp °C"
-                        Log.d(TAG, "Sıcaklık güncellendi: $temp")
+                        temperatureTextView.text = getString(R.string.temperature_format, temp)
+                        Log.d(TAG, "Temperature updated: $temp")
                     }
                 }
             }
         } catch (e: Exception) {
-            Log.e(TAG, "Sıcaklık ayrıştırma hatası: ${e.message}")
+            Log.e(TAG, "Temperature separation error: ${e.message}")
         }
     }
 
@@ -258,7 +269,13 @@ class MonitoringActivity : AppCompatActivity() {
                     val moistureLine = data.substring(startIndex, endIndex)
                     val moisture = moistureLine.substringAfter("Toprak Nemi:").trim()
                     handler.post {
-                        soilMoistureTextView.text = "Toprak Nemi: $moisture"
+                        val translatedMoisture = when (moisture) {
+                            "Kuru" -> getString(R.string.dry)
+                            "Normal" -> getString(R.string.normal)
+                            "Çok Islak" -> getString(R.string.very_wet)
+                            else -> moisture
+                        }
+                        soilMoistureTextView.text = getString(R.string.soil_moisture_format, translatedMoisture)
                         Log.d(TAG, "Toprak nemi güncellendi: $moisture")
                     }
                 }
@@ -274,10 +291,13 @@ class MonitoringActivity : AppCompatActivity() {
             if (startIndex != -1) {
                 val endIndex = data.indexOf("\n", startIndex)
                 if (endIndex != -1) {
-                    val humidityLine = data.substring(startIndex, endIndex)
+                    val humidityValue = data.substring(startIndex, endIndex)
+                        .substringAfter("Nem:")
+                        .trim()
+
                     handler.post {
-                        humidityTextView.text = "Nem: " + humidityLine.substringAfter("Nem:").trim()
-                        Log.d(TAG, "Nem güncellendi: " + humidityLine.substringAfter("Nem:").trim())
+                        humidityTextView.text = getString(R.string.humidity_format, humidityValue)
+                        Log.d(TAG, "Nem güncellendi: $humidityValue")
                     }
                 }
             }

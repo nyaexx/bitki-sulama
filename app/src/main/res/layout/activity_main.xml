@@ -21,7 +21,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cihazlarım"
+                android:text="@string/my_devices"
                 android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
                 android:textStyle="bold"
                 android:textColor="?attr/colorOnSurface" />
@@ -80,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Kayıtlı cihaz bulunamadı"
+                android:text="@string/no_registered_device_found"
                 android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                 android:textStyle="bold"
                 android:alpha="0.8"/>
@@ -89,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Yeni cihaz eklemek için sağ alttaki + butonuna tıklayınız."
+                android:text="@string/add_new_device"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                 android:alpha="0.6" />
@@ -115,7 +115,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_margin="24dp"
-            android:contentDescription="Cihaz Ekle"
+            android:contentDescription="@string/add_device"
             android:src="@drawable/ic_plus"
             app:backgroundTint="?attr/colorPrimary"
             app:tint="?attr/colorOnPrimary"

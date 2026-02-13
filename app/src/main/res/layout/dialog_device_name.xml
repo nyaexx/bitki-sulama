@@ -14,17 +14,19 @@
         android:padding="24dp">
 
         <TextView
+            android:id="@+id/dialogTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cihazı İsimlendir"
+            android:text="@string/name_device"
             android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
             android:textStyle="bold"
             android:layout_marginBottom="8dp"/>
 
         <TextView
+            android:id="@+id/descriptionTextViewId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bu cihaza uygulamada görünecek bir isim verin."
+            android:text="@string/give_device_a_name"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
             android:alpha="0.7"
             android:layout_marginBottom="20dp"/>
@@ -39,7 +41,7 @@
                 android:id="@+id/deviceNameInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Cihaz Takma Adı"
+                android:hint="@string/device_nickname"
                 android:inputType="textCapWords" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -54,14 +56,14 @@
                 style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="İptal"
+                android:text="@string/nevermind"
                 android:layout_marginEnd="8dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ekle" />
+                android:text="@string/add" />
         </LinearLayout>
 
     </LinearLayout>

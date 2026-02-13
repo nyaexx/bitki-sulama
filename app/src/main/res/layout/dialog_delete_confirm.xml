@@ -17,7 +17,7 @@
             android:id="@+id/deleteTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cihazı Sil"
+            android:text="@string/delete_device"
             android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
             android:textStyle="bold"
             android:layout_marginBottom="16dp"/>
@@ -33,7 +33,7 @@
                 style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vazgeç"
+                android:text="@string/nevermind"
                 android:layout_marginEnd="8dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -41,7 +41,7 @@
                 style="@style/Widget.Material3.Button.TonalButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sil"
+                android:text="@string/delete"
                 app:backgroundTint="?attr/colorError"
                 android:textColor="?attr/colorOnSurface" />
         </LinearLayout>

@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Uygulama Hakkında"
+            android:text="@string/about_the_app"
             android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
             android:layout_marginBottom="16dp"/>
 
@@ -88,7 +88,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Kaynak Kodunu Görüntüle"
+                android:text="@string/view_the_source_code"
                 android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                 android:textColor="?attr/colorPrimary"
                 android:textStyle="bold" />

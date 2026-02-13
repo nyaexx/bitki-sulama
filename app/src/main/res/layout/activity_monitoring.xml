@@ -58,7 +58,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Bitkinizin Canlı Durumu"
+                        android:text="@string/live_stats_of_plant"
                         android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
                         android:textStyle="bold"
                         android:textColor="?attr/colorOnPrimaryContainer" />

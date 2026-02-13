@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Cihaz Ekle"
+                android:text="@string/add_device"
                 android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
                 android:textStyle="bold"
                 android:textColor="?attr/colorOnSurface" />
@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:hint="Cihaz ismi veya MAC adresi ara"
+            android:hint="@string/search_device_names"
 
             app:startIconDrawable="@drawable/ic_search"
 
@@ -91,7 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:layout_marginTop="16dp"
-            android:text="Cihazları Tekrar Ara"
+            android:text="@string/search_devices_again"
             android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
             app:cornerRadius="16dp" />

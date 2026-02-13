@@ -16,7 +16,7 @@
             style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="Yeniden Adlandır"
+            android:text="@string/rename"
             android:gravity="start|center_vertical"
             app:icon="@drawable/ic_edit" />
 
@@ -25,7 +25,7 @@
             style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="Cihazı Sil"
+            android:text="@string/delete_device"
             android:textColor="?attr/colorError"
             android:gravity="start|center_vertical"
             app:icon="@drawable/ic_delete"

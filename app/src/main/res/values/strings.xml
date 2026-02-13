@@ -1,27 +1,69 @@
 <resources>
-    <string name="app_name">Bitki Sulama</string>
+    <string name="app_name">Smart Irrigation</string>
     <string name="made">made by nyaex</string>
-    <string name="github">Github</string>
-    <string name="share">Paylaş</string>
-    <string name="search_device">Cihazları Bul</string>
-    <string name="manuel_sulama">MANUEL SULAMA</string>
-    <string name="baglantiyi_kes">BAĞLANTIYI KES</string>
-    <string name="activity_main_header">Cihaz Seçim Menüsü</string>
+    <string name="github" translatable="false">GitHub</string>
+    <string name="share">Share</string>
+    <string name="search_device">Find Devices</string>
+    <string name="manuel_sulama">MANUAL WATERING</string>
+    <string name="baglantiyi_kes">DISCONNECT</string>
+    <string name="activity_main_header">Device Selection Menu</string>
     <string name="logo">logo</string>
-    <string name="yonetim_paneli">Yönetim Paneli</string>
-    <string name="about_info"><![CDATA[Uygulamanın düzgün çalışması için Ayarlar > Uygulamalar > Bitki Sulama > İzinler bölümünden Bluetooth ve Konum izinlerini vermeniz gerekebilir. Ayrıca, cihaz eklemeden önce Bluetooth kartınıza bağlı olduğunuzdan emin olun.]]></string>
-    <string name="device_added">Cihaz eklendi</string>
-    <string name="device_already_added">Cihaz zaten ekli!</string>
-    <string name="permission_required">İzin gerekli</string>
-    <string name="unknown_device">Bilinmeyen cihaz</string>
-    <string name="bluetooth_not_supported">Bluetooth desteklenmiyor</string>
-    <string name="device_renamed">İsim düzenlendi</string>
-    <string name="update">Güncelle</string>
-    <string name="delete_confirm_title">%1$s cihazını silmek istediğinize emin misiniz?</string>
-    <string name="device_deleted">Cihaz silindi</string>
-    <string name="app_version">Versiyon: %1$s</string>
-    <string name="bluetooth_required_for_connection">Bağlantı için bluetooth gerekli</string>
-    <string name="bluetooth_permissions_denied">Bluetooth izinleri reddedildi</string>
-    <string name="github_link">https://github.com/nyaexx/bitki-sulama</string>
-    <string name="cannot_connect_to_device">Cihaza bağlanılamadı: Cihaz kapalı veya kapsama alanı dışında</string>
+    <string name="yonetim_paneli">Management Panel</string>
+    <string name="about_info"><![CDATA[For the app to function properly, you may need to grant Bluetooth and Location permissions in Settings > Apps > Plant Watering > Permissions. Also, make sure you are connected to your Bluetooth module before adding a device.]]></string>
+    <string name="device_added">Device added</string>
+    <string name="device_already_added">Device is already added!</string>
+    <string name="permission_required">Permission required</string>
+    <string name="bluetooth_not_supported">Bluetooth not supported</string>
+    <string name="device_renamed">Device renamed</string>
+    <string name="update">Update</string>
+    <string name="delete_confirm_title">Are you sure you want to delete %1$s?</string>
+    <string name="device_deleted">Device deleted</string>
+    <string name="app_version">Version: %1$s</string>
+    <string name="bluetooth_required_for_connection">Bluetooth is required for connection</string>
+    <string name="bluetooth_permissions_denied">Bluetooth permissions denied</string>
+    <string name="github_link" translatable="false">https://github.com/nyaexx/bitki-sulama</string>
+    <string name="cannot_connect_to_device">Could not connect: Device is off or out of range</string>
+    <string name="no_registered_device_found">No registered device found</string>
+    <string name="add_new_device">Click the + button at the bottom right to add a new device.</string>
+    <string name="add_device">Add Device</string>
+    <string name="rename">Rename</string>
+    <string name="rename_device">Rename Device</string>
+    <string name="give_device_a_new_name">Give this device a new name</string>
+    <string name="delete_device">Delete the Device</string>
+    <string name="device_settings">App Settings</string>
+    <string name="use_material_you">Use Material You</string>
+    <string name="material_you_description">The app is restarted to apply dynamic colors.</string>
+    <string name="about_the_app">About the App</string>
+    <string name="view_the_source_code">View Source Code</string>
+    <string name="search_device_names">Search for device name or MAC address</string>
+    <string name="search_devices_again">Search Devices Again</string>
+    <string name="live_stats_of_plant">Your Plant\'s Live State</string>
+
+    <string name="temperature_format">Temperature: %1$s °C</string>
+    <string name="soil_moisture_format">Soil Moisture: %1$s</string>
+    <string name="humidity_format">Humidity: %1$s %</string>
+
+    <string name="temperature">Temperature: --°C</string>
+    <string name="humidity">Humidity: --%</string>
+    <string name="soil_moisture">Soil Moisture: --</string>
+
+    <string name="nevermind">Nevermind</string>
+    <string name="delete">Delete</string>
+    <string name="name_device">Name Device</string>
+    <string name="give_device_a_name">Give this device a name that will appear in the app.</string>
+    <string name="device_nickname">Device Nickname</string>
+    <string name="add">Add</string>
+    <string name="my_devices">My Devices</string>
+    <string name="irrigation_command_sent">Irrigation command sent</string>
+    <string name="no_bluetooth_connection">No Bluetooth connection</string>
+    <string name="error_command_failed">Failed to send command: %1$s</string>
+    <string name="error_device_inactive">Device is not active or not paired</string>
+    <string name="unknown_device">Unknown Device</string>
+    <string name="connection_success">%1$s connected successfully!</string>
+    <string name="error_connection_no_response">Connection failed: Device not responding</string>
+
+    <string name="dry">Dry</string>
+    <string name="normal">Normal</string>
+    <string name="very_wet">Very Wet</string>
+
 </resources>

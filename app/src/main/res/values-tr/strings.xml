@@ -1,0 +1,70 @@
+<resources>
+    <string name="app_name">Akıllı Sulama</string>
+    <string name="made">made by nyaex</string>
+    <string name="share">Paylaş</string>
+    <string name="search_device">Cihazları Bul</string>
+    <string name="manuel_sulama">MANUEL SULAMA</string>
+    <string name="baglantiyi_kes">BAĞLANTIYI KES</string>
+    <string name="activity_main_header">Cihaz Seçim Menüsü</string>
+    <string name="logo">logo</string>
+    <string name="yonetim_paneli">Yönetim Paneli</string>
+    <string name="about_info"><![CDATA[Uygulamanın düzgün çalışması için Ayarlar > Uygulamalar > Bitki Sulama > İzinler bölümünden Bluetooth ve Konum izinlerini vermeniz gerekebilir. Ayrıca, cihaz eklemeden önce Bluetooth kartınıza bağlı olduğunuzdan emin olun.]]></string>
+    <string name="device_added">Cihaz eklendi</string>
+    <string name="device_already_added">Cihaz zaten ekli!</string>
+    <string name="permission_required">İzin gerekli</string>
+    <string name="unknown_device">Bilinmeyen cihaz</string>
+    <string name="bluetooth_not_supported">Bluetooth desteklenmiyor</string>
+    <string name="device_renamed">İsim düzenlendi</string>
+    <string name="update">Güncelle</string>
+    <string name="delete_confirm_title">%1$s cihazını silmek istediğinize emin misiniz?</string>
+    <string name="device_deleted">Cihaz silindi</string>
+    <string name="app_version">Versiyon: %1$s</string>
+    <string name="bluetooth_required_for_connection">Bağlantı için bluetooth gerekli</string>
+    <string name="bluetooth_permissions_denied">Bluetooth izinleri reddedildi</string>
+    <string name="cannot_connect_to_device">Cihaza bağlanılamadı: Cihaz kapalı veya kapsama alanı dışında</string>
+    <string name="no_registered_device_found">Kayıtlı cihaz bulunamadı</string>
+    <string name="add_new_device">Yeni cihaz eklemek için sağ alttaki + butonuna tıklayınız.</string>
+    <string name="add_device">Cihaz Ekle</string>
+    <string name="rename">Yeniden Adlandır</string>
+    <string name="rename_device">Cihazı Yeniden Adlandır</string>
+    <string name="give_device_a_new_name">Bu cihaza yeni bir isim verin</string>
+    <string name="delete_device">Cihazı Sil</string>
+    <string name="device_settings">Uygulama Ayarları</string>
+    <string name="use_material_you">Material You Kullan</string>
+    <string name="material_you_description">Dinamik renklerin uygulanması için uygulama yeniden başlatılır.</string>
+    <string name="about_the_app">Uygulama Hakkında</string>
+    <string name="view_the_source_code">Kaynak Kodunu Görüntüle</string>
+    <string name="search_device_names">Cihaz ismi veya MAC adresi ara</string>
+    <string name="search_devices_again">Cihazları Tekrar Ara</string>
+    <string name="live_stats_of_plant">Bitkinizin Canlı Durumu</string>
+
+    <string name="temperature_format">Sıcaklık: %1$s °C</string>
+    <string name="soil_moisture_format">Toprak Nemi: %1$s</string>
+    <string name="humidity_format">Nem: %1$s %</string>
+
+    <string name="temperature">Sıcaklık: --°C</string>
+    <string name="humidity">Nem: --%</string>
+    <string name="soil_moisture">Toprak Nemi: --</string>
+
+    <string name="nevermind">Vazgeç</string>
+    <string name="delete">Sil</string>
+    <string name="name_device">Cihazı İsimlendir</string>
+    <string name="give_device_a_name">Bu cihaza uygulamada görünecek bir isim verin.</string>
+    <string name="device_nickname">Cihaz Takma Adı</string>
+    <string name="add">Ekle</string>
+    <string name="my_devices">Cihazlarım</string>
+    <string name="irrigation_command_sent">Sulama komutu gönderildi</string>
+    <string name="no_bluetooth_connection">Bluetooth bağlantısı yok</string>
+    <string name="error_command_failed">Komut gönderilemedi: %1$s</string>
+    <string name="error_device_inactive">Cihaz aktif değil veya eşleşme yapılmamış</string>
+    <string name="connection_success">%1$s bağlantısı başarılı!</string>
+    <string name="error_connection_no_response">Bağlantı kurulamadı: Cihaz yanıt vermiyor</string>
+
+    <string name="dry">Kuru</string>
+    <string name="normal">Normal</string>
+    <string name="very_wet">Çok Islak</string>
+
+
+
+
+</resources>
