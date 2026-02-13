@@ -8,7 +8,7 @@ English |
 <a href="README-tr.md">Türkçe</a>
 </p>
 <p>
-<a href="https://github.com/nyaexx/bitki-sulama/releases/latest"><img src="https://img.shields.io/github/v/release/nyaexx/bitki-sulama?display_name=tag&label=Smart%20Irrigation" alt="Latest Release" /></a>
+<a href="https://github.com/nyaexx/bitki-sulama/releases/latest"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/nyaexx/bitki-sulama?label=Smart%20Irrigation" /></a>
 <a href="https://github.com/nyaexx/bitki-sulama/releases"><img src="https://img.shields.io/github/downloads/nyaexx/bitki-sulama/total?label=Downloads" alt="Downloads" /></a>
 <a href="https://github.com/nyaexx/bitki-sulama/commits/main/"><img alt="GitHub commits since latest release" src="https://img.shields.io/github/commits-since/nyaexx/bitki-sulama/latest?label=Commits%20Since%20Last%20Release" /></a>
 <a href="https://github.com/nyaexx/bitki-sulama/blob/master/LICENSE"><img src="https://img.shields.io/github/license/nyaexx/bitki-sulama?label=License" alt="License" /></a>
