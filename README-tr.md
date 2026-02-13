@@ -4,8 +4,8 @@
 </p>
 <h1>Akıllı Sulama</h1>
 <p>
-<a href="README.md">English</a> 
-| Türkçe
+<a href="README.md">🇬🇧 English</a> 
+| 🇹🇷 Türkçe
 </p>
 <p>
 <a href="https://github.com/nyaexx/bitki-sulama/releases/latest"><img src="https://img.shields.io/github/v/release/nyaexx/bitki-sulama?display_name=tag&label=Ak%C4%B1ll%C4%B1%20Sulama" alt="Latest Release" /></a>
