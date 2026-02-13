@@ -10,7 +10,7 @@
 <p>
 <a href="https://github.com/nyaexx/bitki-sulama/releases/latest"><img src="https://img.shields.io/github/v/release/nyaexx/bitki-sulama?display_name=tag&label=Ak%C4%B1ll%C4%B1%20Sulama" alt="Latest Release" /></a>
 <a href="https://github.com/nyaexx/bitki-sulama/releases"><img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/nyaexx/bitki-sulama/total?label=%C4%B0ndirmeler" /></a>
-<a href="https://github.com/nyaexx/bitki-sulama/commits/main/"><img alt="GitHub commits since latest release" src="https://img.shields.io/github/commits-since/nyaexx/bitki-sulama/latest?label=Son%20S%C3%BCr%C3%BCmden%20Beri%20At%C4%B1lan%20Commit'ler" /></a>
+<a href="https://github.com/nyaexx/bitki-sulama/commits/main/"><img alt="GitHub commits since latest release" src="https://img.shields.io/github/commits-since/nyaexx/bitki-sulama/latest?label=Son%20S%C3%BCr%C3%BCmden%20Beri%20Commit'ler" /></a>
 <a href="https://github.com/nyaexx/bitki-sulama/blob/master/LICENSE"><img src="https://img.shields.io/github/license/nyaexx/bitki-sulama?label=Lisans" alt="License" /></a>
 </p>
 </div>
