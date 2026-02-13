@@ -82,9 +82,9 @@ Set up the circuit according to the connection diagram below:
 </p>
 
 >[!NOTE]
->For usage, you can upload the Arduino codes and the libraries located in this directory to your device.
+>For usage, you can upload the Arduino codes and the libraries located in [this](https://github.com/nyaexx/bitki-sulama/tree/main/Arduino%20Kodlar%C4%B1) directory to your device.
 >
->Remember, if you are not using an original Arduino Uno, you must install the CH340 driver found in the libraries folder within the Arduino Codes directory. Otherwise, installation is not necessary.
+>Remember, if you are not using an original Arduino Uno, you must install the CH340 driver found in the libraries folder within the [Arduino Codes](https://github.com/nyaexx/bitki-sulama/tree/main/Arduino%20Kodlar%C4%B1) directory. Otherwise, installation is not necessary.
 
 >[!IMPORTANT]
 >``Requirements for Bluetooth Connection:``
