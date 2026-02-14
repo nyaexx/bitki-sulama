@@ -8,7 +8,7 @@
     <string name="activity_main_header">Cihaz Seçim Menüsü</string>
     <string name="logo">logo</string>
     <string name="yonetim_paneli">Yönetim Paneli</string>
-    <string name="about_info"><![CDATA[Uygulamanın düzgün çalışması için Ayarlar > Uygulamalar > Bitki Sulama > İzinler bölümünden Bluetooth ve Konum izinlerini vermeniz gerekebilir. Ayrıca, cihaz eklemeden önce Bluetooth kartınıza bağlı olduğunuzdan emin olun.]]></string>
+    <string name="about_info"><![CDATA[Uygulamanın düzgün çalışması için Ayarlar > Uygulamalar > Akıllı Sulama > İzinler bölümünden Bluetooth ve Konum izinlerini vermeniz gerekebilir. Ayrıca, cihaz eklemeden önce Bluetooth kartınıza bağlı olduğunuzdan emin olun.]]></string>
     <string name="device_added">Cihaz eklendi</string>
     <string name="device_already_added">Cihaz zaten ekli!</string>
     <string name="permission_required">İzin gerekli</string>

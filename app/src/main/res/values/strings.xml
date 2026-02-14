@@ -9,7 +9,7 @@
     <string name="activity_main_header">Device Selection Menu</string>
     <string name="logo">logo</string>
     <string name="yonetim_paneli">Management Panel</string>
-    <string name="about_info"><![CDATA[For the app to function properly, you may need to grant Bluetooth and Location permissions in Settings > Apps > Plant Watering > Permissions. Also, make sure you are connected to your Bluetooth module before adding a device.]]></string>
+    <string name="about_info"><![CDATA[For the app to function properly, you may need to grant Bluetooth and Location permissions in Settings > Apps > Smart Irrigation > Permissions. Also, make sure you are connected to your Bluetooth module before adding a device.]]></string>
     <string name="device_added">Device added</string>
     <string name="device_already_added">Device is already added!</string>
     <string name="permission_required">Permission required</string>
