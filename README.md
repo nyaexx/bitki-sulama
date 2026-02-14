@@ -36,7 +36,7 @@ This project enables automatic irrigation using an Arduino circuit by measuring 
 
   - Measurement: Sensors measure soil moisture, air temperature, and air humidity.
   - Decision: When the soil is dry, the system detects this, lights up the red LED, and automatically activates the water pump (relay).
-      - It is recommended to adjust the nem_orani (moisture rate) threshold values within the [**void loop()**](https://github.com/nyaexx/bitki-sulama/blob/092b0fe9b20702ee34cc0e6b0391c396f2d98dd1/Arduino%20Kodlar%C4%B1/arduinokodlar%C4%B1.ino#L53) in the Arduino code according to the water requirements of your specific plant type.
+      - It is recommended to adjust the nem_orani (moisture rate) threshold values within the [**void loop()**](https://github.com/nyaexx/bitki-sulama/blob/2f3320e30a38abe428c3f1918f5442bd092b8827/arduinocodes/arduinocodes.ino#L53) in the Arduino code according to the water requirements of your specific plant type.
   - Information: Soil status (Dry, Normal, Wet) is displayed via LEDs, and all data is sent to the phone via Bluetooth.
   - Remote Control: Manual irrigation can be started at any time with a single command through the app via Bluetooth connection.
 
@@ -82,9 +82,9 @@ Set up the circuit according to the connection diagram below:
 </p>
 
 >[!NOTE]
->For usage, you can upload the Arduino codes and the libraries located in [this](https://github.com/nyaexx/bitki-sulama/tree/main/Arduino%20Kodlar%C4%B1) directory to your device.
+>For usage, you can upload the Arduino codes and the libraries located in [this](https://github.com/nyaexx/bitki-sulama/tree/main/arduinocodes) directory to your device.
 >
->Remember, if you are not using an original Arduino Uno, you must install the CH340 driver found in the libraries folder within the [Arduino Codes](https://github.com/nyaexx/bitki-sulama/tree/main/Arduino%20Kodlar%C4%B1) directory. Otherwise, installation is not necessary.
+>Remember, if you are not using an original Arduino Uno, you must install the CH340 driver found in the libraries folder within the [Arduino Codes](https://github.com/nyaexx/bitki-sulama/tree/main/arduinocodes) directory. Otherwise, installation is not necessary.
 
 >[!IMPORTANT]
 >``Requirements for Bluetooth Connection:``
