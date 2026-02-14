@@ -96,6 +96,6 @@ Eğer bluetooth bağlı gözükürken eşleşme yapılamazsa devrede elektriği 
 ---
 
 > [!NOTE]
-> Yardım veya herhangi bir soru için discord: nyaex
+> Yardım veya herhangi bir soru için [issue](https://github.com/nyaexx/bitki-sulama/issues) oluşturabilirsiniz.
 > 
 > Repoya bir şey eklemek ister veya bir hatayı düzeltmek isterseniz pull request atabilirsiniz.
