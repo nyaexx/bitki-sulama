@@ -78,7 +78,7 @@ This project enables automatic irrigation using an Arduino circuit by measuring 
 Set up the circuit according to the connection diagram below:
 
 <p align="center">
-<img src="https://github.com/nyaexx/bitki-sulama/blob/main/Arduino%20Kodlar%C4%B1/ba%C4%9Flanti%C5%9Femas%C4%B1.png" width="">
+<img src="https://github.com/nyaexx/bitki-sulama/blob/main/arduinocodes/circuitschematics.png" width="">
 </p>
 
 >[!NOTE]
