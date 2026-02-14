@@ -94,6 +94,6 @@ Set up the circuit according to the connection diagram below:
 >If the device cannot be paired while Bluetooth appears connected, disconnect the power from the circuit, wait until the lights turn off, and reconnect the power; this should resolve the issue.
 
 >[!NOTE]
->For help or any questions, contact on Discord: nyaex
+>You can create an [issue](https://github.com/nyaexx/bitki-sulama/issues) for help or any question.
 >
 >If you would like to add something to the repo or fix a bug, feel free to submit a pull request.
